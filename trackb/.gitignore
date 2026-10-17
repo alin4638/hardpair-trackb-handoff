@@ -1,0 +1,23 @@
+# data, encoder caches, third-party code
+data/
+third_party/
+outputs/
+!outputs/results/
+# results/ (top level) is tracked: small CSV/JSONL only
+
+# weights and checkpoints (never commit CONCH/MUSK or LoRA weights)
+checkpoints/
+*.safetensors
+*.pt
+*.pth
+*.bin
+*.ckpt
+
+# secrets
+.env
+
+# python / env
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
