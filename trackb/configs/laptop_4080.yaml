@@ -1,0 +1,46 @@
+run_id: laptop_4080_v1
+run_dir: outputs/laptop_4080_v1
+manifest: data/manifest.csv
+roles: data/roles.csv
+data_root: data/raw
+descriptors: configs/descriptors_crc.yaml
+extra_manifest: null
+seed: 0
+model:
+  name: Qwen/Qwen2-VL-2B-Instruct
+  revision: main
+  load_in_4bit: false
+  gradient_checkpointing: true
+  train_visual: []  # e.g. [visual.merger]; exact matched parameters are logged
+  lora_r: 16
+  lora_alpha: 32
+  max_length: 1024
+  min_pixels: 50176
+  max_pixels: 50176
+train:
+  steps: 1000
+  grad_accum: 8
+  lr: 0.0001
+  save_every: 100
+  eval_every: 250
+  dev_limit: null
+  sample_limit: null
+cache:
+  batch_size: 16
+  teachers: [conch, musk]
+  revisions: {conch: main, musk: main}
+  hard_fraction: 0.25
+  threshold_candidates: [0.0, 0.01, 0.02, 0.04]
+  minimum_dev_precision: 0.8
+r3:
+  rounds: 2
+  candidates: 4
+  max_tiles: 1000
+  max_per_tile: 2
+  replay_fraction: 0.5
+feedback:
+  source: expert_label
+  nodes: [50, 100, 200]
+  replay_fraction: 0.5
+
+feedback_dir: data/feedback

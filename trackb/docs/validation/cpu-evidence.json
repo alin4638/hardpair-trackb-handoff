@@ -1,0 +1,201 @@
+{
+  "executed_at": "2026-10-17T19:53:45.716935+00:00",
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "python": "3.11.15",
+  "gpu_execution": false,
+  "commands": [
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests",
+        "--junitxml=/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/docs/validation/cpu-tests.xml"
+      ],
+      "exit_code": 0,
+      "stdout": "...............                                                          [100%]\n- generated xml file: /Users/shichen/GitHub/hardpair-trackb-handoff/trackb/docs/validation/cpu-tests.xml -\n15 passed in 5.66s\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "tb",
+        "scripts",
+        "app.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout": "usage: run_pipeline.py [-h] --stage\n                       {prepare,cache,zeroshot,r1,r2,r3,feedback,report}\n                       [--config CONFIG] [--dry-run] [--r3-from {r2,feedback}]\n                       [--stop-after STOP_AFTER] [--resume]\n                       [--cache-kind {features,regions}] [--skip-images]\n\nTrack B pipeline. Run from trackb; paths in YAML are relative to trackb.\n\noptions:\n  -h, --help            show this help message and exit\n  --stage {prepare,cache,zeroshot,r1,r2,r3,feedback,report}\n  --config CONFIG\n  --dry-run             Validate config and list prerequisite status; never\n                        load models or write artifacts\n  --r3-from {r2,feedback}\n                        Start a new R3 cycle from R2 or the actual feedback\n                        checkpoint\n  --stop-after STOP_AFTER\n                        Stop cleanly after this optimizer step; unchanged\n                        config can resume\n  --resume              Resume latest complete optimizer boundary; stage\n                        config must match\n  --cache-kind {features,regions}\n  --skip-images         prepare only: freeze/check contracts without local\n                        images; GPU data check remains pending\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "prepare",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/cpu.json",
+        "--skip-images"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"cpu_checked\",\n  \"evidence\": {\n    \"counts\": {\n      \"train_fit\": 16200,\n      \"eval\": 3590,\n      \"pool\": 3590,\n      \"train_dev\": 1800\n    },\n    \"manifest_version\": \"b-v1-ca24f7ea87e8\",\n    \"images_checked\": false\n  },\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": "INFO:root:Plan: {\"stage\": \"prepare\", \"gpu_required\": false, \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run\", \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/logs\", \"resume\": false, \"prerequisites\": [{\"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.csv\", \"exists\": true}, {\"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.meta.json\", \"exists\": true}], \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\", \"gpu_status\": \"gpu_pending\"}\nINFO:root:Completed: {\"status\": \"cpu_checked\", \"evidence\": {\"counts\": {\"train_fit\": 16200, \"eval\": 3590, \"pool\": 3590, \"train_dev\": 1800}, \"manifest_version\": \"b-v1-ca24f7ea87e8\", \"images_checked\": false}, \"gpu_status\": \"gpu_pending\"}\n"
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "prepare",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/cpu.json",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"prepare\",\n  \"gpu_required\": false,\n  \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run\",\n  \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "cache",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/cpu.json",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"cache\",\n  \"gpu_required\": true,\n  \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run\",\n  \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/raw\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "zeroshot",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/cpu.json",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"zeroshot\",\n  \"gpu_required\": true,\n  \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run\",\n  \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/raw\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "r1",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/cpu.json",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"r1\",\n  \"gpu_required\": true,\n  \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run\",\n  \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/raw\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/hard_train.csv\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "r2",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/cpu.json",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"r2\",\n  \"gpu_required\": true,\n  \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run\",\n  \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/raw\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/threshold.json\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/checkpoints/MISSING_SELECTED_r1\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "r3",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/cpu.json",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"r3\",\n  \"gpu_required\": true,\n  \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run\",\n  \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/raw\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/threshold.json\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/targets/r2.jsonl\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/checkpoints/MISSING_SELECTED_r2\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "feedback",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/cpu.json",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"feedback\",\n  \"gpu_required\": true,\n  \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run\",\n  \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/raw\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/threshold.json\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/targets/r2.jsonl\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "report",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/cpu.json",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"report\",\n  \"gpu_required\": false,\n  \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run\",\n  \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_s91i9cmr/run/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/Users/shichen/GitHub/hardpair-trackb-handoff/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "source_hashes": {
+    "tb/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tb/build_sft.py": "d3ecb70282b199d2c47b49761ee8b7db400865389153cb9586522f647a7d920e",
+    "tb/cache.py": "2b59470c42606590681a44c4188704f09238134917320c62337042ca20209c1e",
+    "tb/common.py": "600c8767a0afd33d4f57d24cfe605f41b96d460040469ac17ef466e86e8b4c4d",
+    "tb/crops.py": "fb1e83a8b74b1260c5773d85c801f2bcc657f05aa62ebb63f2f97b2c1bf0954a",
+    "tb/data.py": "522fdb69cdcf4d464bd5106990ecfa585bc1703e7b6d929a6f14e659bd95b391",
+    "tb/encoders.py": "bcf3d5d437263530d66226397438b17af4b1bd2b81c59317c2ddc864c7eb0d07",
+    "tb/evaluate.py": "e8ba4dd50aa55b02da07f37683b5acbc9e55d12f02238cc8f47002016f0c18a8",
+    "tb/feedback.py": "a3aafabf6fbb821db9bfbbc7d6173bf761dc07f43de381ab5c35cbb7d698bc45",
+    "tb/grounding.py": "d63e1efc6672381b4a44c2b0a7584fcf19a468cbbdac304e7cce7991b374127c",
+    "tb/hard.py": "d8bb020ea1972c6ada81eb3092f69b62ad3c91849a0abc273097e5b09d1a2565",
+    "tb/model.py": "43d9e885a53ea367a9a0cae0fe3c1d3995c05be3c06a1aa5ad91e75e338fa56a",
+    "tb/pipeline.py": "ad15b8fd343b1fb1417838bc6bb306fa695566af5df803c6483dc25fc6b8c4b5",
+    "tb/scoring.py": "14ffe50165e2493c3d4ad3d9372a766096df21cf37d7f555c26e615d399ad0ec",
+    "tb/train_lora.py": "5ee64e1d724a5257b61d160786bac9f1afea2743fc7e959d4850c84def80a6cb",
+    "scripts/check_data.py": "0a0d128ee001c8e91afce0a269abe8dbe17994a069d8ba0ee1ffb3bbebe351eb",
+    "scripts/diagnose.py": "fc03fa0df58bf7142615277e251a61a7a61645c1999ef51783ce1392f52609cc",
+    "scripts/download_data.py": "d0d350f1646c8566dbaf739be81ff4d58e4c77da89a3cb2600540ce3099e6487",
+    "scripts/make_handoff.py": "432470768eaa306b06fc6726d47bc889c6c7c3d69dfbf47e6ed0a85e747fd549",
+    "scripts/register_extra.py": "14c0cda496f5c20ec3d21c9d3be338c1841d279844fd969aed56010918c918fa",
+    "scripts/run_pipeline.py": "eea05b557c1c8365040e5bce3a629aa287b0ee46745983cb3ecd6b33426265c5",
+    "scripts/smoke_encoders.py": "2fe6d14e673b1de6a3d059dad7f6e498aef78503c21e488f30bea38a245d7c7e",
+    "scripts/smoke_vlm.py": "e288a83e748d325809e7e3186bbebb63d5e640240ffc60a055fc01e4785023fc",
+    "scripts/validate_cpu.py": "edc0c4b6d3869f8448d105d299c275f3bcfabddf0ba65428ba3ed4dc50d10cf0",
+    "tests/conftest.py": "69a53b2cec0798614f29d4a59734838b11dffdac7ef2750c6c78166ca64c9492",
+    "tests/test_contracts.py": "92b47344436dc87c20ab8a7f4997114c7afa2139676b0ab03ff47862bfef1a0b",
+    "tests/test_pipeline_flow.py": "f5737a281b262d1fe6da5b3ca52e48237abb3dba31ebf343b99d11886deea4fc",
+    "tests/test_training_resume.py": "f4d07cf59de32216c80e14fa0303f0a95f4e7bb15e598a471e143ba1998a4f7c"
+  }
+}

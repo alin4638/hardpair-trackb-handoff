@@ -1,0 +1,11 @@
+{
+  "seed": 0,
+  "split_unit": "tile",
+  "sha256": "1eee0eaa5730c0089df3c9aed6b38504948f3ebcf3f2d84a320eecb2fb62367e",
+  "counts": {
+    "train_fit": 16200,
+    "eval": 3590,
+    "pool": 3590,
+    "train_dev": 1800
+  }
+}

@@ -1,13 +1,4 @@
-"""Manifest join, local tile paths, and the train/pool/eval leakage guard.
-
-Source of truth is Track A's `../data/manifest.csv` (tile_id, path, label, split). Until it exists we
-use `data/manifest_standin.csv`, built with the rule from pipeline_plan.md (00_manifest.py):
-2,000 tiles/class from NCT-CRC-HE-100K with seed 0, plus all of CRC-VAL-HE-7K split 50/50
-stratified into pool/eval. Track A's exact sampling code is unknown, so the stand-in's train
-sample and pool/eval assignment will NOT match tile-for-tile; `compare_manifests` reports by how much.
-
-Every SFT builder must get its rows from `training_rows()`; nothing else in Track B reads tiles for training.
-"""
+"""B-owned frozen manifest, role assignment, path mapping and leakage guards."""
 from __future__ import annotations
 
 import re
@@ -18,7 +9,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]          # trackb/
 RAW = ROOT / "data" / "raw"
-TRACK_A_MANIFEST = ROOT.parent / "data" / "manifest.csv"
+MANIFEST = ROOT / "data" / "manifest.csv"
 STANDIN_MANIFEST = ROOT / "data" / "manifest_standin.csv"
 
 CLASSES = ["ADI", "BACK", "DEB", "LYM", "MUC", "MUS", "NORM", "STR", "TUM"]
@@ -110,24 +101,58 @@ def build_standin(out: Path = STANDIN_MANIFEST) -> pd.DataFrame:
     return m
 
 
-def manifest_source() -> Path:
-    return TRACK_A_MANIFEST if TRACK_A_MANIFEST.exists() else STANDIN_MANIFEST
+def manifest_source(config=None) -> Path:
+    return Path(config['manifest']) if config else MANIFEST
 
 
-def load_manifest(with_local: bool = True) -> pd.DataFrame:
-    """Track A's manifest if present, else the stand-in (built on first use). Adds `local_path`, `fname`."""
-    src = manifest_source()
-    if src == STANDIN_MANIFEST and not src.exists():
-        build_standin()
-    m = pd.read_csv(src, comment="#")
-    assert list(m.columns[:4]) == ["tile_id", "path", "label", "split"], f"unexpected columns {list(m.columns)}"
-    assert m.tile_id.is_unique, "duplicate tile_id in manifest"
-    assert set(m.split) <= set(SPLITS), f"unexpected splits {set(m.split)}"
-    assert set(m.label) <= set(CLASSES), f"unexpected labels {set(m.label)}"
-    m.attrs["source"] = src.name
-    m["fname"] = m.path.str.split(r"[\\/]").str[-1]
+def freeze_roles(m, path, n_dev=200):
+    from .common import file_hash, atomic_json, read_json
+    path = Path(path)
+    rng = np.random.default_rng(0)
+    expected = m[['tile_id', 'split']].rename(columns={'split': 'role'}).copy()
+    expected.loc[expected.role == 'train', 'role'] = 'train_fit'
+    for c in CLASSES:
+        ids = sorted(m.loc[(m.split == 'train') & (m.label == c), 'tile_id'])
+        if len(ids) <= n_dev: raise ValueError(f'Insufficient train rows for {c}')
+        dev = rng.choice(ids, n_dev, replace=False)
+        expected.loc[expected.tile_id.isin(dev), 'role'] = 'train_dev'
+    if path.exists():
+        old = pd.read_csv(path)
+        if not old.equals(expected): raise ValueError('Frozen roles differ; create a new explicit data version')
+    else:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        expected.to_csv(path, index=False)
+    atomic_json(path.with_suffix('.meta.json'), {'seed': 0, 'split_unit': 'tile',
+                'sha256': file_hash(path), 'counts': expected.role.value_counts().to_dict()})
+    return expected
+
+
+def load_manifest(with_local=True, config=None):
+    from .common import file_hash, read_json
+    src = manifest_source(config)
+    m = pd.read_csv(src, comment='#')
+    if list(m.columns[:4]) != ['tile_id', 'path', 'label', 'split']: raise ValueError('Invalid manifest columns')
+    if not m.tile_id.is_unique or not m.path.is_unique: raise ValueError('Duplicate image identity')
+    if not set(m.split) <= set(SPLITS) or not set(m.label) <= set(CLASSES): raise ValueError('Invalid manifest roles/classes')
+    meta = read_json(src.with_suffix('.meta.json'))
+    if not meta or meta['sha256'] != file_hash(src): raise ValueError('Manifest hash mismatch or missing metadata')
+    roles = Path(config['roles']) if config else ROOT / 'data/roles.csv'
+    if not roles.exists(): raise FileNotFoundError('Run prepare to freeze roles first')
+    r = pd.read_csv(roles)
+    if not r.tile_id.is_unique or set(r.tile_id) != set(m.tile_id): raise ValueError('Roles identity mismatch')
+    rm = read_json(roles.with_suffix('.meta.json'))
+    if not rm or rm['sha256'] != file_hash(roles): raise ValueError('Frozen roles hash mismatch')
+    m = m.merge(r, on='tile_id', validate='one_to_one', sort=False)
+    if not ((m.split.eq('train') & m.role.isin(['train_fit','train_dev'])) | m.split.eq(m.role)).all():
+        raise ValueError('Role/split mismatch')
+    m['fname'] = m.path.str.split(r'[\\/]').str[-1]
+    raw = Path(config['data_root']) if config else RAW
+    m['local_path'] = [str(raw / Path(p)) for p in m.path]
+    if any(Path(p).is_absolute() or '..' in Path(p).parts for p in m.path): raise ValueError('Manifest paths must be relative')
     if with_local:
-        m["local_path"] = [str(local_path(p)) for p in m.path]
+        missing = [p for p in m.local_path if not Path(p).is_file()]
+        if missing: raise FileNotFoundError(f'{len(missing)} images missing; first: {missing[0]}')
+    m.attrs.update(source=str(src), manifest_version=meta['manifest_version'])
     return m
 
 
@@ -153,7 +178,7 @@ def assert_no_leak(rows: pd.DataFrame, manifest: pd.DataFrame, allow_pool_ids=()
     Checks tile_id AND filename, so a tile can't slip in under another id (e.g. an 'extra NCT' id).
     """
     allow = set(allow_pool_ids)
-    ev = manifest[manifest.split == "eval"]
+    ev = manifest[(manifest.split == "eval") | (manifest.get("role", manifest.split) == "train_dev")]
     po = manifest[(manifest.split == "pool") & ~manifest.tile_id.isin(allow)]
     bad = pd.concat([
         rows[rows.tile_id.isin(ev.tile_id) | rows.fname.isin(ev.fname)].assign(why="eval"),
@@ -175,25 +200,28 @@ def extra_nct(manifest: pd.DataFrame) -> pd.DataFrame:
     return big.rename(columns={"rel_path": "path"})[["tile_id", "path", "label", "split", "fname", "local_path"]]
 
 
-def training_rows(manifest: pd.DataFrame | None = None, *, include_extra: bool = False,
-                  pool_ids=(), log_path: Path | None = None) -> pd.DataFrame:
-    """The ONLY entry point for training tiles: train split (+ extra NCT) (+ logged pool corrections).
-
-    pool_ids: Aim 3 corrections; they are written to `log_path` (required when pool_ids is non-empty).
-    """
+def training_rows(manifest=None, *, include_extra=False, pool_ids=(), log_path=None,
+                  feedback=None, extra=None):
+    """Only supervised fit rows and explicit current corrected pool labels enter training."""
     m = load_manifest() if manifest is None else manifest
-    parts = [m[m.split == "train"]]
-    if include_extra:
-        parts.append(extra_nct(m))
-    if len(pool_ids):
-        if log_path is None:
-            raise ValueError("pool corrections must be logged: pass log_path")
-        corr = m[m.tile_id.isin(set(pool_ids)) & (m.split == "pool")]
-        if len(corr) != len(set(pool_ids)):
-            raise LeakError("some pool_ids are not pool tiles")
+    if 'role' not in m: raise LeakError('Frozen roles are required')
+    parts = [m[m.role == 'train_fit'].copy()]
+    if include_extra and extra is None: raise ValueError('Register extra NCT in an explicit extra manifest first')
+    if extra is not None:
+        if not extra.path.str.startswith('NCT-CRC-HE-100K/').all(): raise LeakError('Extra data must be NCT')
+        if not set(extra.label) <= set(CLASSES): raise ValueError('Invalid extra labels')
+        if set(extra.tile_id) & set(m.tile_id) or set(extra.fname) & set(m.fname): raise LeakError('Extra images overlap frozen manifest')
+        parts.append(extra)
+    ids = set(pool_ids)
+    if ids:
+        if feedback is None or set(feedback) != ids: raise ValueError('Current feedback labels required')
+        if log_path is None: raise ValueError('Feedback training must be logged')
+        corr = m[m.tile_id.isin(ids) & (m.role == 'pool')].copy()
+        if len(corr) != len(ids): raise LeakError('Feedback contains non-pool IDs')
+        corr['label'] = corr.tile_id.map(lambda x: feedback[x]['corrected_label'])
         Path(log_path).parent.mkdir(parents=True, exist_ok=True)
-        corr[["tile_id", "label"]].to_csv(log_path, index=False)
+        corr[['tile_id','label']].to_csv(log_path,index=False)
         parts.append(corr)
-    rows = pd.concat(parts, ignore_index=True)
-    assert_no_leak(rows, m, allow_pool_ids=pool_ids)
+    rows = pd.concat(parts,ignore_index=True)
+    assert_no_leak(rows,m,allow_pool_ids=ids)
     return rows

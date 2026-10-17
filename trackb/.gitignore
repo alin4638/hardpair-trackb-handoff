@@ -21,3 +21,13 @@ checkpoints/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# Frozen B-owned small data contracts are reviewed and versioned.
+!data/
+data/*
+!data/manifest_standin.csv
+!data/manifest.csv
+!data/manifest.meta.json
+!data/roles.csv
+!data/roles.meta.json
+.pytest_cache/

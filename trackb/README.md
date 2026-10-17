@@ -1,27 +1,43 @@
-# Track B: post-training a pathology VLM on hard tissue pairs
+# Track B — independent pathology VLM training and feedback
 
-See `CLAUDE.md` for rules, data contracts and method.
+Implementation lives entirely in `trackb/`. Read [AGENTS.md](AGENTS.md),
+[scope](docs/TRACK_B.md), [phases](docs/TRACK_B_PHASES.md) and
+[delivery status](docs/IMPLEMENTATION_STATUS.md).
 
-## Setup (Windows native, also Linux/Kaggle)
+**GPU operator: start with [Windows PowerShell runbook](docs/WINDOWS_RUNBOOK.md).**
+The default model is Qwen2-VL-2B with language LoRA. CONCH/MUSK caches are built
+sequentially and released before student training. No remote GPU service is required.
 
-```bash
-uv venv --python 3.12 .venv
-uv pip install --python .venv/Scripts/python.exe torch torchvision --torch-backend cu128
-uv pip install --python .venv/Scripts/python.exe -r requirements.txt "timm>=0.9.8" einops fairscale sentencepiece ftfy regex h5py safetensors tokenizers
-git clone https://github.com/mahmoodlab/CONCH.git third_party/CONCH        # tested at 141cc09
-git clone https://github.com/lilab-stanford/MUSK.git third_party/MUSK      # tested at 714b666
-uv pip install --python .venv/Scripts/python.exe --no-deps -e third_party/CONCH -e third_party/MUSK
-hf auth login        # your own approved access to MahmoodLab/CONCH and xiangjx/musk
-hf download MahmoodLab/CONCH && hf download xiangjx/musk && hf download Qwen/Qwen2-VL-2B-Instruct
+```powershell
+cd hardpair-trackb-handoff/trackb
+python scripts/run_pipeline.py --help
+python scripts/run_pipeline.py --stage prepare --config configs/laptop_4080.yaml --dry-run
 ```
 
-`--no-deps` for the encoders is deliberate: MUSK pins `torch==2.0.1`/`timm==0.9.8`. `tb/encoders.py`
-works around two transformers-5 breakages (CONCH's `batch_encode_plus`, MUSK's `.spm` XLM-R tokenizer)
-without patching `third_party/`.
+Stages: `prepare`, `cache` (features or regions), `zeroshot`, `r1`, `r2`, `r3`,
+`feedback`, `report`. Formal and smoke runs have separate configurations, targets,
+checkpoints, results and feedback histories. `--resume` validates run/target identity.
 
-## Smoke tests
+CPU development: Python 3.11 or 3.12; `bash scripts/setup_cloud.sh` installs a CPU-only
+PyTorch and development packages, then runs `scripts/validate_cpu.py`. No datasets,
+pretrained models or GPU execution are involved. Without torch, the basic tests run
+with `python -m pip install -r requirements-cloud.txt; python -m pytest -q tests`,
+but the real optimizer/RNG recovery test is skipped and must not be reported as passed.
 
-```bash
-python scripts/smoke_encoders.py   # CONCH + MUSK: shapes, norms, known-answer similarities
-python scripts/smoke_vlm.py        # Qwen2-VL-2B: 1 generation, visual tokens, peak VRAM
+Frozen data: `data/manifest.csv` retains every original stand-in record;
+`data/roles.csv` fixes 16,200 train_fit / 1,800 train_dev / 3,590 pool / 3,590 eval.
+Both have SHA-256 metadata. Data images belong under configurable `data_root`.
+A artifacts are never discovered automatically. Optional extra NCT training rows
+must be explicitly registered with real directory labels using `scripts/register_extra.py`.
+
+The demo consumes actual saved results and queued pool queries:
+
+```powershell
+python -m streamlit run app.py -- --config configs/laptop_4080.yaml
 ```
+
+No weights or raw data belong in the handoff. `python scripts/make_handoff.py` exports
+all nonignored Track B source (including untracked additions), a patch against HEAD,
+and file hashes to `outputs/handoff/`. For the published handoff, pull `main` from
+`https://github.com/alin4638/hardpair-trackb-handoff.git`; verify the remote URL because
+`origin` in an existing checkout may point to a personal fork.

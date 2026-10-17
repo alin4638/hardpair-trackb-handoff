@@ -1,0 +1,7 @@
+{
+  "manifest_version": "b-v1-ca24f7ea87e8",
+  "sha256": "ca24f7ea87e835e1aafa61287f9008a8ed01dd9040f4af80ece9f3682aa232c0",
+  "source": "B promoted unchanged records from manifest_standin.csv",
+  "baseline_commit": "18f5f0a3266f91cb0d40dff80a9ab16ffe8949de",
+  "split_unit": "tile"
+}

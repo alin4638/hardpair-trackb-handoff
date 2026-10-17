@@ -19,13 +19,13 @@ def _device():
 class Conch:
     name, dim = "conch", CONCH_DIM
 
-    def __init__(self, device=None, dtype=torch.float16):
+    def __init__(self, device=None, dtype=torch.float16, revision="main"):
         from conch.open_clip_custom import create_model_from_pretrained, get_tokenizer
         from huggingface_hub import hf_hub_download
 
         self.device = device or _device()
         self.dtype = dtype if self.device == "cuda" else torch.float32
-        ckpt = hf_hub_download("MahmoodLab/CONCH", "pytorch_model.bin")
+        ckpt = hf_hub_download("MahmoodLab/CONCH", "pytorch_model.bin", revision=revision)
         self.model, self.preprocess = create_model_from_pretrained("conch_ViT-B-16", checkpoint_path=ckpt, device=self.device)
         self.model = self.model.to(self.dtype).eval()
         self.tokenizer = get_tokenizer()
@@ -77,7 +77,7 @@ class Musk:
     """MUSK with its retrieval head + out_norm (zero-shot space), no multiscale aug, 384 px input."""
     name, dim = "musk", MUSK_DIM
 
-    def __init__(self, device=None, dtype=torch.float16):
+    def __init__(self, device=None, dtype=torch.float16, revision="main"):
         import os
 
         import torchvision.transforms as T
@@ -90,7 +90,7 @@ class Musk:
         self.dtype = dtype if self.device == "cuda" else torch.float32
         self.utils = utils
         # Pass the cached file path directly; the default "hf_hub:" route re-downloads 3 GB into ~/.cache/.
-        ckpt = hf_hub_download("xiangjx/musk", "model.safetensors")
+        ckpt = hf_hub_download("xiangjx/musk", "model.safetensors", revision=revision)
         self.model = create_model("musk_large_patch16_384")
         utils.load_model_and_may_interpolate(ckpt, self.model, "model|module", "")
         self.model = self.model.to(self.device, self.dtype).eval()

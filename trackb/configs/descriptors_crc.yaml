@@ -1,0 +1,112 @@
+version: crc-morphology-v1
+source: B-authored morphological weak-supervision configuration; not expert region
+  annotations
+descriptors:
+- descriptor_id: ADI_1
+  label: ADI
+  text: Large clear adipocyte vacuoles with thin cell borders
+  source: B-authored morphology
+- descriptor_id: ADI_2
+  label: ADI
+  text: Peripheral flattened nuclei around fat spaces
+  source: B-authored morphology
+- descriptor_id: ADI_3
+  label: ADI
+  text: Clusters of rounded fat cells separated by delicate septa
+  source: B-authored morphology
+- descriptor_id: BACK_1
+  label: BACK
+  text: Pale nearly empty field with little tissue
+  source: B-authored morphology
+- descriptor_id: BACK_2
+  label: BACK
+  text: Uniform light background without cellular architecture
+  source: B-authored morphology
+- descriptor_id: BACK_3
+  label: BACK
+  text: Sparse staining without organized glands or stroma
+  source: B-authored morphology
+- descriptor_id: DEB_1
+  label: DEB
+  text: Granular fragmented cellular material
+  source: B-authored morphology
+- descriptor_id: DEB_2
+  label: DEB
+  text: Irregular necrotic fragments with dark nuclear dust
+  source: B-authored morphology
+- descriptor_id: DEB_3
+  label: DEB
+  text: Disorganized eosinophilic debris without intact gland architecture
+  source: B-authored morphology
+- descriptor_id: LYM_1
+  label: LYM
+  text: Densely packed small round dark nuclei
+  source: B-authored morphology
+- descriptor_id: LYM_2
+  label: LYM
+  text: Small lymphoid cells with scant cytoplasm
+  source: B-authored morphology
+- descriptor_id: LYM_3
+  label: LYM
+  text: Sheets of relatively uniform basophilic lymphocytes
+  source: B-authored morphology
+- descriptor_id: MUC_1
+  label: MUC
+  text: Pale extracellular mucin pools
+  source: B-authored morphology
+- descriptor_id: MUC_2
+  label: MUC
+  text: Amorphous light mucin with sparse cellular material
+  source: B-authored morphology
+- descriptor_id: MUC_3
+  label: MUC
+  text: Smooth pale mucinous spaces with few nuclei
+  source: B-authored morphology
+- descriptor_id: MUS_1
+  label: MUS
+  text: Parallel bundles of elongated eosinophilic muscle cells
+  source: B-authored morphology
+- descriptor_id: MUS_2
+  label: MUS
+  text: Elongated blunt ended nuclei aligned in fascicles
+  source: B-authored morphology
+- descriptor_id: MUS_3
+  label: MUS
+  text: Compact smooth muscle bundles with uniform pink cytoplasm
+  source: B-authored morphology
+- descriptor_id: NORM_1
+  label: NORM
+  text: Orderly colonic crypts with regular lumina
+  source: B-authored morphology
+- descriptor_id: NORM_2
+  label: NORM
+  text: Goblet cells in organized glandular epithelium
+  source: B-authored morphology
+- descriptor_id: NORM_3
+  label: NORM
+  text: Regular gland spacing and relatively uniform basal nuclei
+  source: B-authored morphology
+- descriptor_id: STR_1
+  label: STR
+  text: Wavy collagen fibers with scattered spindle nuclei
+  source: B-authored morphology
+- descriptor_id: STR_2
+  label: STR
+  text: Irregular fibrous extracellular matrix separating tissue structures
+  source: B-authored morphology
+- descriptor_id: STR_3
+  label: STR
+  text: Loose collagenous stroma with unevenly distributed fibroblasts
+  source: B-authored morphology
+- descriptor_id: TUM_1
+  label: TUM
+  text: Crowded irregular epithelial glands
+  source: B-authored morphology
+- descriptor_id: TUM_2
+  label: TUM
+  text: Disorganized malignant epithelial architecture
+  source: B-authored morphology
+- descriptor_id: TUM_3
+  label: TUM
+  text: Atypical crowded nuclei in complex glandular structures
+  source: B-authored morphology

@@ -1,17 +1,2 @@
-# torch/torchvision installed separately to match CUDA, e.g.:
-#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
-transformers
-peft
-accelerate
-bitsandbytes
-qwen-vl-utils
-datasets
-pandas
-pyarrow
-pyyaml
-scikit-learn
-pillow
-huggingface_hub
-python-dotenv
-tqdm
-matplotlib
+# Windows training requirements; CPU development uses requirements-cloud.txt.
+-r requirements-windows.txt

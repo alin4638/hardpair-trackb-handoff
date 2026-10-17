@@ -1,0 +1,18 @@
+-r requirements-cloud.txt
+# Install CUDA torch/torchvision separately, see docs/WINDOWS_RUNBOOK.md.
+transformers==4.57.1
+peft==0.17.1
+accelerate==1.10.1
+huggingface_hub>=0.34,<1
+safetensors>=0.5,<1
+timm==0.9.8
+einops
+fairscale
+sentencepiece
+ftfy
+regex
+h5py
+python-dotenv
+tqdm
+streamlit>=1.40,<2
+# Optional 4-bit path: pip install bitsandbytes==0.48.1
