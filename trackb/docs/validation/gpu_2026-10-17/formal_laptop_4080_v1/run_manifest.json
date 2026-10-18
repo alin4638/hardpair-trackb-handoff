@@ -1,0 +1,215 @@
+{
+  "run_id": "laptop_4080_v1",
+  "checkpoints": {
+    "r1": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r1_sft\\step_0001000",
+      "model_version": "step_0001000-9dbc7783bac4",
+      "dev_balanced_accuracy": 0.8861111111111111,
+      "step": 1000
+    },
+    "r2": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r2_grounded\\step_0001000",
+      "model_version": "step_0001000-a7a3c2c550c5",
+      "dev_balanced_accuracy": 0.9077777777777778,
+      "step": 1000
+    },
+    "r3_round_1": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r3_round_1\\step_0000250",
+      "model_version": "step_0000250-f81274a0d947",
+      "dev_balanced_accuracy": 0.8994444444444445,
+      "step": 250
+    },
+    "r3": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r2_grounded\\step_0001000",
+      "model_version": "step_0001000-a7a3c2c550c5",
+      "dev_balanced_accuracy": 0.9077777777777778,
+      "step": 1000
+    },
+    "r3_round_2": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r3_round_2\\step_0000500",
+      "model_version": "step_0000500-8a5c90527a9c",
+      "dev_balanced_accuracy": 0.8988888888888888,
+      "step": 500
+    }
+  },
+  "stages": {
+    "prepare": {
+      "status": "cpu_checked",
+      "evidence": {
+        "counts": {
+          "train_fit": 16200,
+          "eval": 3590,
+          "pool": 3590,
+          "train_dev": 1800
+        },
+        "manifest_version": "b-v1-ca24f7ea87e8",
+        "images_checked": true
+      },
+      "gpu_status": "gpu_pending"
+    },
+    "cache": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "cache_features": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\cache"
+    },
+    "zeroshot": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "r1": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "cache_regions": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\cache"
+    },
+    "r2": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "r3": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "feedback": {
+      "status": "awaiting_feedback",
+      "outstanding": 50
+    },
+    "report": {
+      "status": "cpu_checked",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\return_bundle.zip"
+    }
+  },
+  "config_hash": "0997148b2ad1afa1c0ac4d2d1db7885ee05760edbbc11026e954c44b362e4fee",
+  "effective_config": {
+    "run_id": "laptop_4080_v1",
+    "run_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1",
+    "manifest": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv",
+    "roles": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv",
+    "data_root": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw",
+    "descriptors": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\configs\\descriptors_crc.yaml",
+    "extra_manifest": null,
+    "seed": 0,
+    "model": {
+      "name": "Qwen/Qwen2-VL-2B-Instruct",
+      "revision": "main",
+      "load_in_4bit": false,
+      "gradient_checkpointing": true,
+      "train_visual": [],
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_length": 1024,
+      "min_pixels": 50176,
+      "max_pixels": 50176,
+      "generate_batch": 8
+    },
+    "r2": {
+      "class_replay_fraction": 0.5
+    },
+    "train": {
+      "steps": 1000,
+      "grad_accum": 8,
+      "lr": 0.0001,
+      "save_every": 100,
+      "eval_every": 250,
+      "dev_limit": null,
+      "sample_limit": null
+    },
+    "cache": {
+      "batch_size": 16,
+      "teachers": [
+        "conch",
+        "musk"
+      ],
+      "revisions": {
+        "conch": "main",
+        "musk": "main"
+      },
+      "hard_fraction": 0.25,
+      "threshold_candidates": [
+        0.0,
+        0.01,
+        0.02,
+        0.04,
+        0.06,
+        0.08,
+        0.1,
+        0.15
+      ],
+      "minimum_dev_precision": 0.8
+    },
+    "r3": {
+      "rounds": 2,
+      "candidates": 4,
+      "max_tiles": 1000,
+      "max_per_tile": 2,
+      "replay_fraction": 0.5
+    },
+    "feedback": {
+      "source": "expert_label",
+      "nodes": [
+        50,
+        100,
+        200
+      ],
+      "replay_fraction": 0.5
+    },
+    "feedback_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\feedback"
+  },
+  "manifest_sha256": "ca24f7ea87e835e1aafa61287f9008a8ed01dd9040f4af80ece9f3682aa232c0",
+  "code_head": "9e3a31d6e88f53c1939eb5b6fd48be9db66df0d3",
+  "code_hash": "f616881b0d6b59e8493ad553ee111e71012896bd14e5857d89a3d29345e23390",
+  "descriptor_sha256": "176fa1ab50a1195e7c0ca7c6a3bdd382bfeae13dc32af447ec6ee0b9be01740a",
+  "manifest_version": "b-v1-ca24f7ea87e8",
+  "results": {
+    "zeroshot": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\results\\by_model\\74e8ae44e381ba4b9e88",
+      "model_version": "base-Qwen_Qwen2-VL-2B-Instruct-895c3a49bc3fa70a340399125c650a463535e71c"
+    },
+    "r1_sft": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\results\\by_model\\de42b8b63cdb5bc0ed8b",
+      "model_version": "step_0001000-9dbc7783bac4"
+    },
+    "r2_grounded": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\results\\by_model\\f99149581cc2daa74987",
+      "model_version": "step_0001000-a7a3c2c550c5"
+    },
+    "r3_selftrain": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\results\\by_model\\25a0ad5951d21b1dd2f1",
+      "model_version": "step_0001000-a7a3c2c550c5"
+    },
+    "fb_0": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\results\\by_model\\0d3d6baafc145980efec",
+      "model_version": "step_0001000-a7a3c2c550c5"
+    }
+  },
+  "r3_selected": {
+    "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r2_grounded\\step_0001000",
+    "model_version": "step_0001000-a7a3c2c550c5",
+    "dev_balanced_accuracy": 0.9077777777777778,
+    "step": 1000
+  },
+  "r3_rounds": {
+    "r3_round_1": {
+      "status": "gpu_verified",
+      "accepted": 723,
+      "generated": 4000,
+      "selected": "step_0001000-a7a3c2c550c5"
+    },
+    "r3_round_2": {
+      "status": "gpu_verified",
+      "accepted": 732,
+      "generated": 4000,
+      "selected": "step_0001000-a7a3c2c550c5"
+    }
+  }
+}

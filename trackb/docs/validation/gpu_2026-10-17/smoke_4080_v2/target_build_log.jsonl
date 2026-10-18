@@ -1,0 +1,5 @@
+{"stage": "r1", "training_targets": 67, "unique_tiles": 54, "targets_sha256": "8583ac2bbfb0cfab5fe88d8f1459b5388bf0522aa7597bb0cb07aecd30314433", "input_tiles": 54, "accepted_targets": 67}
+{"stage": "r1", "training_targets": 67, "unique_tiles": 54, "targets_sha256": "8583ac2bbfb0cfab5fe88d8f1459b5388bf0522aa7597bb0cb07aecd30314433", "input_tiles": 54, "accepted_targets": 67}
+{"stage": "r2", "training_targets": 21, "unique_tiles": 21, "targets_sha256": "14f57288eed84bdcc0d32514378c7cf3e37e478075b2e030787aea310eac57d1", "input_tiles": 54, "accepted_targets": 21}
+{"stage": "r2_train_mix", "training_targets": 42, "unique_tiles": 30, "targets_sha256": "193c47e4a68812eb69c93b4c3b456d6baccbb9df6b27ee0ba4aa3642348f4d2f", "grounded_targets": 21, "class_replay_targets": 21, "class_replay_fraction": 0.5}
+{"stage": "r3_round_1", "training_targets": 0, "unique_tiles": 0, "targets_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945", "generated": 36, "accepted": 0, "parent": "step_0000010-a04c10184568"}

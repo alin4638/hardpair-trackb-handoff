@@ -1,0 +1,13 @@
+﻿START zeroshot 2026-10-17T16:11:01
+STEP zeroshot exit=0 seconds=2369
+START r1 2026-10-17T16:50:29
+STEP r1 exit=0 seconds=7291
+START cache_regions 2026-10-17T18:52:00
+STEP cache_regions exit=0 seconds=8535
+START r2 2026-10-17T21:14:15
+STEP r2 exit=0 seconds=9317
+START r3 2026-10-17T23:49:32
+STEP r3 exit=0 seconds=32084
+START feedback 2026-10-18T08:44:16
+STEP feedback exit=0 seconds=2944
+RUNNER_EXIT

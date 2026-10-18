@@ -1,0 +1,5 @@
+run_id,stage,model_version,manifest_version,n_eval,balanced_accuracy,pair_error_STR_MUS,pair_error_DEB_MUC,pair_error_NORM_TUM,format_rate,grounding_pass_rate,n_rationale
+smoke_4080_v2,zeroshot,base-Qwen_Qwen2-VL-2B-Instruct-895c3a49bc3fa70a340399125c650a463535e71c,b-v1-ca24f7ea87e8,54,0.2222222222222222,0.3333333333333333,0.0,0.5,,,0
+smoke_4080_v2,r1_sft,step_0000010-5e124dfe9a62,b-v1-ca24f7ea87e8,54,0.1296296296296296,0.5,0.0,0.0,,,0
+smoke_4080_v2,r2_grounded,step_0000010-a04c10184568,b-v1-ca24f7ea87e8,54,0.1111111111111111,0.5,0.0,0.0,0.0,0.0,54
+smoke_4080_v2,fb_0,step_0000010-5e124dfe9a62,b-v1-ca24f7ea87e8,54,0.12962962962962965,0.5,0.0,0.0,0.0,0.0,54

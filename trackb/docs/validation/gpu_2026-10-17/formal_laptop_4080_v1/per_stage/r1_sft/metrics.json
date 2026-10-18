@@ -1,0 +1,149 @@
+{
+  "n_eval": 3590,
+  "balanced_accuracy": 0.8321299682929233,
+  "recall": {
+    "ADI": 0.9970104633781763,
+    "BACK": 0.9834905660377359,
+    "DEB": 0.8994082840236687,
+    "LYM": 0.9463722397476341,
+    "MUC": 0.8800773694390716,
+    "MUS": 0.6047297297297297,
+    "NORM": 0.8274932614555256,
+    "STR": 0.6492890995260664,
+    "TUM": 0.7012987012987013
+  },
+  "class_counts": {
+    "ADI": 669,
+    "TUM": 616,
+    "MUC": 517,
+    "BACK": 424,
+    "NORM": 371,
+    "LYM": 317,
+    "MUS": 296,
+    "STR": 211,
+    "DEB": 169
+  },
+  "pair_error_STR_MUS": 0.3214990138067061,
+  "pair_counts_STR_MUS": {
+    "errors": 163,
+    "denominator": 507
+  },
+  "pair_error_DEB_MUC": 0.008746355685131196,
+  "pair_counts_DEB_MUC": {
+    "errors": 6,
+    "denominator": 686
+  },
+  "pair_error_NORM_TUM": 0.15501519756838905,
+  "pair_counts_NORM_TUM": {
+    "errors": 153,
+    "denominator": 987
+  },
+  "confusion_matrix": {
+    "ADI": {
+      "ADI": 667,
+      "BACK": 1,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 1,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "BACK": {
+      "ADI": 1,
+      "BACK": 417,
+      "DEB": 3,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 3,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "DEB": {
+      "ADI": 0,
+      "BACK": 2,
+      "DEB": 152,
+      "LYM": 1,
+      "MUC": 0,
+      "MUS": 7,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 7
+    },
+    "LYM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 3,
+      "LYM": 300,
+      "MUC": 0,
+      "MUS": 1,
+      "NORM": 5,
+      "STR": 3,
+      "TUM": 5
+    },
+    "MUC": {
+      "ADI": 11,
+      "BACK": 0,
+      "DEB": 6,
+      "LYM": 0,
+      "MUC": 455,
+      "MUS": 21,
+      "NORM": 2,
+      "STR": 21,
+      "TUM": 1
+    },
+    "MUS": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 2,
+      "LYM": 0,
+      "MUC": 13,
+      "MUS": 179,
+      "NORM": 0,
+      "STR": 101,
+      "TUM": 1
+    },
+    "NORM": {
+      "ADI": 1,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 3,
+      "MUC": 4,
+      "MUS": 1,
+      "NORM": 307,
+      "STR": 0,
+      "TUM": 55
+    },
+    "STR": {
+      "ADI": 1,
+      "BACK": 0,
+      "DEB": 3,
+      "LYM": 0,
+      "MUC": 7,
+      "MUS": 62,
+      "NORM": 0,
+      "STR": 137,
+      "TUM": 1
+    },
+    "TUM": {
+      "ADI": 1,
+      "BACK": 0,
+      "DEB": 13,
+      "LYM": 2,
+      "MUC": 24,
+      "MUS": 30,
+      "NORM": 98,
+      "STR": 16,
+      "TUM": 432
+    }
+  },
+  "n_rationale": 0,
+  "format_rate": null,
+  "grounding_pass_rate": null,
+  "run_id": "laptop_4080_v1",
+  "stage": "r1_sft",
+  "model_version": "step_0001000-9dbc7783bac4",
+  "manifest_version": "b-v1-ca24f7ea87e8"
+}

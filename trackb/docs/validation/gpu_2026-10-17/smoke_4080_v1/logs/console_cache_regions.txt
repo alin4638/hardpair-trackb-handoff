@@ -1,0 +1,36 @@
+﻿python.exe : INFO:root:Plan: {"stage": "cache", "gpu_required": true, "run_dir": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v1", "logs": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v1\\logs", "resume": false, "prerequisites": 
+[{"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.meta.json", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw", "exists": true}], "cache_note": "Individual teacher 
+image caches and resolved model access checked at execution", "gpu_status": "gpu_pending"}
+At line:1 char:352
++ ... off\trackb; & .\.venv\Scripts\python.exe scripts/run_pipeline.py --st ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO:root:Plan:... "gpu_pending"}:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO:root:pos embedding not resized.
+INFO:root:Cache progress: {'teacher': 'conch', 'kind': 'regions', 'new_tiles': 100, 'pending_at_start': 180, 
+'seconds': 10.36676670000088, 'tiles_per_second': 9.646209169537066, 'peak_vram_gib': 1.5201787948608398, 
+'model_revision': 'f9ca9f877171a28ade80228fb195ac5d79003357'}
+INFO:root:Cache progress: {'teacher': 'conch', 'kind': 'regions', 'new_tiles': 180, 'pending_at_start': 180, 
+'seconds': 15.164428000000044, 'tiles_per_second': 11.869883915173027, 'peak_vram_gib': 1.5201787948608398, 
+'model_revision': 'f9ca9f877171a28ade80228fb195ac5d79003357'}
+INFO:root:Cache progress: {'teacher': 'musk', 'kind': 'regions', 'new_tiles': 100, 'pending_at_start': 180, 'seconds': 
+27.3983788000005, 'tiles_per_second': 3.6498509904534266, 'peak_vram_gib': 1.701827049255371, 'model_revision': 
+'de1ffed28608c197d2903f6fa42b491a3fbf0fb8'}
+INFO:root:Cache progress: {'teacher': 'musk', 'kind': 'regions', 'new_tiles': 180, 'pending_at_start': 180, 'seconds': 
+43.95564920000106, 'tiles_per_second': 4.095036776296678, 'peak_vram_gib': 1.701827049255371, 'model_revision': 
+'de1ffed28608c197d2903f6fa42b491a3fbf0fb8'}
+INFO:root:Completed: {"status": "gpu_verified", "evidence": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v1\\logs", "note": "GPU execution completed; 
+does not imply efficacy"}
+Load ckpt from C:\Users\boty1\.cache\huggingface\hub\models--xiangjx--musk\snapshots\de1ffed28608c197d2903f6fa42b491a3fbf0fb8\model.safetensors
+{
+  "status": "gpu_verified",
+  "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v1\\logs",
+  "note": "GPU execution completed; does not imply efficacy"
+}

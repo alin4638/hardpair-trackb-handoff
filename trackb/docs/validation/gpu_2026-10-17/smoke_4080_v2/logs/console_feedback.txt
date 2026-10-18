@@ -1,0 +1,40 @@
+﻿python.exe : INFO:root:Plan: {"stage": "feedback", "gpu_required": true, "run_dir": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2", "logs": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\logs", "resume": false, "prerequisites": 
+[{"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.meta.json", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\threshold.json", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\targets\\r2.jsonl", "exists": true}], 
+"cache_note": "Individual teacher image caches and resolved model access checked at execution", "gpu_status": 
+"gpu_pending"}
+At line:1 char:431
++ ... t=Get-Date; & .\.venv\Scripts\python.exe scripts/run_pipeline.py --st ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO:root:Plan:... "gpu_pending"}:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.46s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.13s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.33s/it]
+The image processor of type `Qwen2VLImageProcessor` is now loaded as a fast processor by default, even if the model 
+checkpoint was saved with a slow processor. This is a breaking change and may produce slightly different outputs. To 
+continue using the slow processor, instantiate this class with `use_fast=False`. Note that this behavior will be 
+extended to all models in a future release.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set 
+`TRANSFORMERS_VERBOSITY=info` for more details.
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.37s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.10s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.29s/it]
+INFO:root:Completed: {"status": "awaiting_feedback", "queries": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\feedback_smoke_v2\\queries.jsonl"}
+{
+  "status": "awaiting_feedback",
+  "queries": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\feedback_smoke_v2\\queries.jsonl"
+}

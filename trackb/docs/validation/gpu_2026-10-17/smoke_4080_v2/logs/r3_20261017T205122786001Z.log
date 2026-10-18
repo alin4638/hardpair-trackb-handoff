@@ -1,0 +1,13 @@
+INFO:root:Plan: {"stage": "r3", "gpu_required": true, "run_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2", "logs": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\logs", "resume": false, "prerequisites": [{"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.meta.json", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\threshold.json", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\targets\\r2.jsonl", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\checkpoints\\r2_grounded\\step_0000010", "exists": true}], "cache_note": "Individual teacher image caches and resolved model access checked at execution", "gpu_status": "gpu_pending"}
+ERROR:root:Stage failed; resume the latest complete checkpoint after resolving the cause
+Traceback (most recent call last):
+  File "C:\dev\handoff\hardpair-trackb-handoff\trackb\scripts\run_pipeline.py", line 54, in main
+    result=run(c,args);logging.info('Completed: %s',json.dumps(result));print(json.dumps(result,indent=2))
+           ^^^^^^^^^^^
+  File "C:\dev\handoff\hardpair-trackb-handoff\trackb\tb\pipeline.py", line 166, in run
+    elif stage=='r3': run_r3(c,args,m,fit[fit.role=='train_fit'],dev,cache,state)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\dev\handoff\hardpair-trackb-handoff\trackb\tb\pipeline.py", line 218, in run_r3
+    save_state(c,state);raise RuntimeError('R3 accepted zero candidates; inspect generation records and improve supervision before retrying')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: R3 accepted zero candidates; inspect generation records and improve supervision before retrying

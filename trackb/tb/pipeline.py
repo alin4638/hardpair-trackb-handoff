@@ -153,7 +153,15 @@ def run(c,args):
             if threshold is None: raise FileNotFoundError('Run cache --cache-kind regions first')
             targets=build_sft.r2(fit,cache,threshold['threshold']);name='r2_grounded';initial=checkpoint(state,'r1')['path']
         write_jsonl(root/'targets'/f'{stage}.jsonl',targets);build_log(c,stage,targets,input_tiles=len(fit),accepted_targets=len(targets))
-        best=train(c,targets,dev,name,initial,args.resume,args.stop_after);state['checkpoints'][stage]=best;save_state(c,state)
+        train_targets=targets
+        fraction=(c.get('r2') or {}).get('class_replay_fraction',0)
+        if stage=='r2' and fraction:
+            # Keep the class-code prompt that scoring uses alive during grounded training; r2.jsonl stays
+            # grounded-only, so R3/feedback replay semantics are unchanged.
+            train_targets=build_sft.mix(targets,build_sft.r1(fit,pd.read_csv(root/'hard_train.csv')),fraction,c['seed'])
+            write_jsonl(root/'targets/r2_train_mix.jsonl',train_targets)
+            build_log(c,'r2_train_mix',train_targets,grounded_targets=len(targets),class_replay_targets=len(train_targets)-len(targets),class_replay_fraction=fraction)
+        best=train(c,train_targets,dev,name,initial,args.resume,args.stop_after);state['checkpoints'][stage]=best;save_state(c,state)
         stage_eval(c,m,state,name,best,stage=='r2',cache,read_json(root/'threshold.json',{}).get('threshold',0))
     elif stage=='r3': run_r3(c,args,m,fit[fit.role=='train_fit'],dev,cache,state)
     elif stage=='feedback':
@@ -194,7 +202,7 @@ def run_r3(c,args,m,fit,dev,cache,state):
                 if stored is None:
                     # Seed per tile makes crash recovery independent of completed generation count.
                     seed_all(c['seed']+iteration+int(digest(row.tile_id)[:8],16))
-                    answers=[student.generate(row.local_path,generation_prompt(cache.descriptors),True) for _ in range(c['r3']['candidates'])]
+                    answers=student.generate_many([row.local_path],[generation_prompt(cache.descriptors)],True,n=c['r3']['candidates'])
                     stored={'tile_id':row.tile_id,'answers':answers};atomic_json(p,stored)
                 generated+=len(stored['answers']);kept=0
                 for text in dict.fromkeys(stored['answers']):

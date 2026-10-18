@@ -1,0 +1,56 @@
+{
+  "threshold": 0.15,
+  "calibration": "train_dev class-match proxy",
+  "precision_constraint_met": false,
+  "n_dev": 18,
+  "trials": [
+    {
+      "threshold": 0.0,
+      "accepted": 79,
+      "precision": 0.12658227848101267,
+      "true_accepted": 10
+    },
+    {
+      "threshold": 0.01,
+      "accepted": 78,
+      "precision": 0.11538461538461539,
+      "true_accepted": 9
+    },
+    {
+      "threshold": 0.02,
+      "accepted": 74,
+      "precision": 0.12162162162162163,
+      "true_accepted": 9
+    },
+    {
+      "threshold": 0.04,
+      "accepted": 71,
+      "precision": 0.1267605633802817,
+      "true_accepted": 9
+    },
+    {
+      "threshold": 0.06,
+      "accepted": 64,
+      "precision": 0.125,
+      "true_accepted": 8
+    },
+    {
+      "threshold": 0.08,
+      "accepted": 55,
+      "precision": 0.14545454545454545,
+      "true_accepted": 8
+    },
+    {
+      "threshold": 0.1,
+      "accepted": 49,
+      "precision": 0.16326530612244897,
+      "true_accepted": 8
+    },
+    {
+      "threshold": 0.15,
+      "accepted": 39,
+      "precision": 0.1794871794871795,
+      "true_accepted": 7
+    }
+  ]
+}

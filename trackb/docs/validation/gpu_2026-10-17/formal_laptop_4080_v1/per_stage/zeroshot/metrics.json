@@ -1,0 +1,149 @@
+{
+  "n_eval": 3590,
+  "balanced_accuracy": 0.23197812124450856,
+  "recall": {
+    "ADI": 0.0,
+    "BACK": 0.0,
+    "DEB": 0.0,
+    "LYM": 0.5047318611987381,
+    "MUC": 0.0,
+    "MUS": 0.5236486486486487,
+    "NORM": 0.9326145552560647,
+    "STR": 0.052132701421800945,
+    "TUM": 0.07467532467532467
+  },
+  "class_counts": {
+    "ADI": 669,
+    "TUM": 616,
+    "MUC": 517,
+    "BACK": 424,
+    "NORM": 371,
+    "LYM": 317,
+    "MUS": 296,
+    "STR": 211,
+    "DEB": 169
+  },
+  "pair_error_STR_MUS": 0.14595660749506903,
+  "pair_counts_STR_MUS": {
+    "errors": 74,
+    "denominator": 507
+  },
+  "pair_error_DEB_MUC": 0.0,
+  "pair_counts_DEB_MUC": {
+    "errors": 0,
+    "denominator": 686
+  },
+  "pair_error_NORM_TUM": 0.5795339412360689,
+  "pair_counts_NORM_TUM": {
+    "errors": 572,
+    "denominator": 987
+  },
+  "confusion_matrix": {
+    "ADI": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 44,
+      "NORM": 625,
+      "STR": 0,
+      "TUM": 0
+    },
+    "BACK": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 421,
+      "STR": 0,
+      "TUM": 3
+    },
+    "DEB": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 28,
+      "MUC": 0,
+      "MUS": 3,
+      "NORM": 135,
+      "STR": 1,
+      "TUM": 2
+    },
+    "LYM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 160,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 131,
+      "STR": 4,
+      "TUM": 22
+    },
+    "MUC": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 110,
+      "NORM": 405,
+      "STR": 2,
+      "TUM": 0
+    },
+    "MUS": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 155,
+      "NORM": 139,
+      "STR": 0,
+      "TUM": 2
+    },
+    "NORM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 2,
+      "NORM": 346,
+      "STR": 1,
+      "TUM": 22
+    },
+    "STR": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 74,
+      "NORM": 118,
+      "STR": 11,
+      "TUM": 8
+    },
+    "TUM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 10,
+      "NORM": 550,
+      "STR": 10,
+      "TUM": 46
+    }
+  },
+  "n_rationale": 0,
+  "format_rate": null,
+  "grounding_pass_rate": null,
+  "run_id": "laptop_4080_v1",
+  "stage": "zeroshot",
+  "model_version": "base-Qwen_Qwen2-VL-2B-Instruct-895c3a49bc3fa70a340399125c650a463535e71c",
+  "manifest_version": "b-v1-ca24f7ea87e8"
+}

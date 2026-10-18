@@ -17,6 +17,10 @@ model:
   max_length: 1024
   min_pixels: 50176
   max_pixels: 50176
+  generate_batch: 8  # greedy rationale batch; smoke_4080_v1 measured 1.56 s/tile single vs 0.32 s/tile batched
+r2:
+  # Class-code replay during grounded R2 (smoke_4080_v1 R2 collapsed class scoring to one class).
+  class_replay_fraction: 0.5
 train:
   steps: 1000
   grad_accum: 8
@@ -30,7 +34,7 @@ cache:
   teachers: [conch, musk]
   revisions: {conch: main, musk: main}
   hard_fraction: 0.25
-  threshold_candidates: [0.0, 0.01, 0.02, 0.04]
+  threshold_candidates: [0.0, 0.01, 0.02, 0.04, 0.06, 0.08, 0.1, 0.15]  # smoke: precision rose with threshold
   minimum_dev_precision: 0.8
 r3:
   rounds: 2

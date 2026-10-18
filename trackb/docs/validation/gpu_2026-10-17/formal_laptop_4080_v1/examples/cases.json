@@ -1,0 +1,44 @@
+[
+  {
+    "tile_id": "train_STR_0000",
+    "label": "STR",
+    "rival": "MUS",
+    "region": "0,0",
+    "support": "Wavy collagen fibers with scattered spindle nuclei",
+    "against": "Elongated blunt ended nuclei aligned in fascicles",
+    "support_id": "STR_1",
+    "against_id": "MUS_2",
+    "margin": -0.14189517498016357,
+    "region_index": 0,
+    "support_index": 21,
+    "against_index": 16
+  },
+  {
+    "tile_id": "train_DEB_0000",
+    "label": "DEB",
+    "rival": "MUC",
+    "region": "1,0",
+    "support": "Irregular necrotic fragments with dark nuclear dust",
+    "against": "Amorphous light mucin with sparse cellular material",
+    "support_id": "DEB_2",
+    "against_id": "MUC_2",
+    "margin": 0.08524641394615173,
+    "region_index": 3,
+    "support_index": 7,
+    "against_index": 13
+  },
+  {
+    "tile_id": "train_NORM_0000",
+    "label": "NORM",
+    "rival": "TUM",
+    "region": "2,0",
+    "support": "Orderly colonic crypts with regular lumina",
+    "against": "Atypical crowded nuclei in complex glandular structures",
+    "support_id": "NORM_1",
+    "against_id": "TUM_3",
+    "margin": 0.10050070285797119,
+    "region_index": 6,
+    "support_index": 18,
+    "against_index": 26
+  }
+]

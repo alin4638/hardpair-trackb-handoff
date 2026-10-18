@@ -30,6 +30,8 @@ def setup(tmp_path,monkeypatch):
         def generate(self,path,prompt,sample=False):
             label=Path(path).stem;row=SimpleNamespace(label=label)
             return render(evidence(cache.read('conch',row,'regions'),desc,label))
+        def generate_many(self,paths,prompts,sample=False,predictions=None,n=1):
+            return [self.generate(p,q,sample) for p,q in zip(paths,prompts) for _ in range(n)]
     def scores(student,rows,*a,**kw):
         return rows[['tile_id']].assign(pred='MUS',top2='STR',margin=np.linspace(.01,.5,len(rows))),[]
     calls=[]

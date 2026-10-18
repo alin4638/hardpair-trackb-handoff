@@ -1,0 +1,178 @@
+{
+  "run_id": "smoke_4080_v2",
+  "checkpoints": {
+    "r1": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\checkpoints\\r1_sft\\step_0000010",
+      "model_version": "step_0000010-5e124dfe9a62",
+      "dev_balanced_accuracy": 0.16666666666666666,
+      "step": 10
+    },
+    "r2": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\checkpoints\\r2_grounded\\step_0000010",
+      "model_version": "step_0000010-a04c10184568",
+      "dev_balanced_accuracy": 0.1111111111111111,
+      "step": 10
+    }
+  },
+  "stages": {
+    "prepare": {
+      "status": "cpu_checked",
+      "evidence": {
+        "counts": {
+          "train_fit": 16200,
+          "eval": 3590,
+          "pool": 3590,
+          "train_dev": 1800
+        },
+        "manifest_version": "b-v1-ca24f7ea87e8",
+        "images_checked": true
+      },
+      "gpu_status": "gpu_pending"
+    },
+    "cache": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "cache_features": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\cache"
+    },
+    "zeroshot": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "r1": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "cache_regions": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\cache"
+    },
+    "r2": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "r3": {
+      "status": "failed",
+      "validation_status": "gpu_pending",
+      "error_log": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\logs\\r3_20261017T205122786001Z.log"
+    },
+    "feedback": {
+      "status": "awaiting_feedback",
+      "outstanding": 2
+    },
+    "report": {
+      "status": "cpu_checked",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\return_bundle.zip"
+    }
+  },
+  "config_hash": "d8fc97afc2ac6f5101022152687ab5efff0d4f20ef46c0826cebafcbc93daa19",
+  "effective_config": {
+    "run_id": "smoke_4080_v2",
+    "run_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2",
+    "manifest": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv",
+    "roles": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv",
+    "data_root": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw",
+    "descriptors": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\configs\\descriptors_crc.yaml",
+    "extra_manifest": null,
+    "seed": 0,
+    "model": {
+      "name": "Qwen/Qwen2-VL-2B-Instruct",
+      "revision": "main",
+      "load_in_4bit": false,
+      "gradient_checkpointing": true,
+      "train_visual": [],
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_length": 1024,
+      "min_pixels": 50176,
+      "max_pixels": 50176,
+      "generate_batch": 8
+    },
+    "r2": {
+      "class_replay_fraction": 0.5
+    },
+    "train": {
+      "steps": 20,
+      "grad_accum": 1,
+      "lr": 0.0001,
+      "save_every": 10,
+      "eval_every": 10,
+      "dev_limit": 18,
+      "sample_limit": 54
+    },
+    "cache": {
+      "batch_size": 16,
+      "teachers": [
+        "conch",
+        "musk"
+      ],
+      "revisions": {
+        "conch": "main",
+        "musk": "main"
+      },
+      "hard_fraction": 0.25,
+      "threshold_candidates": [
+        0.0,
+        0.01,
+        0.02,
+        0.04,
+        0.06,
+        0.08,
+        0.1,
+        0.15
+      ],
+      "minimum_dev_precision": 0.8
+    },
+    "r3": {
+      "rounds": 2,
+      "candidates": 4,
+      "max_tiles": 9,
+      "max_per_tile": 2,
+      "replay_fraction": 0.5
+    },
+    "feedback": {
+      "source": "expert_label",
+      "nodes": [
+        2,
+        4
+      ],
+      "replay_fraction": 0.5
+    },
+    "feedback_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\feedback_smoke_v2"
+  },
+  "manifest_sha256": "ca24f7ea87e835e1aafa61287f9008a8ed01dd9040f4af80ece9f3682aa232c0",
+  "code_head": "9e3a31d6e88f53c1939eb5b6fd48be9db66df0d3",
+  "code_hash": "f616881b0d6b59e8493ad553ee111e71012896bd14e5857d89a3d29345e23390",
+  "descriptor_sha256": "176fa1ab50a1195e7c0ca7c6a3bdd382bfeae13dc32af447ec6ee0b9be01740a",
+  "manifest_version": "b-v1-ca24f7ea87e8",
+  "results": {
+    "zeroshot": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\results\\by_model\\74e8ae44e381ba4b9e88",
+      "model_version": "base-Qwen_Qwen2-VL-2B-Instruct-895c3a49bc3fa70a340399125c650a463535e71c"
+    },
+    "r1_sft": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\results\\by_model\\15601b95d840975d4460",
+      "model_version": "step_0000010-5e124dfe9a62"
+    },
+    "r2_grounded": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\results\\by_model\\a86041f9111c1216af40",
+      "model_version": "step_0000010-a04c10184568"
+    },
+    "fb_0": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\smoke_4080_v2\\results\\by_model\\839f9e00c1d223d1be6a",
+      "model_version": "step_0000010-5e124dfe9a62"
+    }
+  },
+  "r3_rounds": {
+    "r3_round_1": {
+      "status": "no_accepted_candidates",
+      "generated": 36
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{"stage": "r1", "training_targets": 20250, "unique_tiles": 16200, "targets_sha256": "010dcccbf5ee9f699481b0b01c628e094a22ef87048739653291adba05ade71c", "input_tiles": 16200, "accepted_targets": 20250}
+{"stage": "r2", "training_targets": 5872, "unique_tiles": 5872, "targets_sha256": "95eb289c69da33d9ab00f8d879f05a2ccea160678ce5e2525e4bb1433e022ab5", "input_tiles": 16200, "accepted_targets": 5872}
+{"stage": "r2_train_mix", "training_targets": 11744, "unique_tiles": 8972, "targets_sha256": "05f8520b382102043498fbb174f43a5eb4d2adaf1e81d7b538dd1bcd827e5a26", "grounded_targets": 5872, "class_replay_targets": 5872, "class_replay_fraction": 0.5}
+{"stage": "r3_round_1", "training_targets": 1446, "unique_tiles": 1059, "targets_sha256": "c63f0393ce1a2204eb030fc44e4216e9c0d1ae45f8993ee8c4235d8d350b0a6d", "generated": 4000, "accepted": 723, "replay_targets": 723, "parent": "step_0001000-a7a3c2c550c5"}
+{"stage": "r3_round_2", "training_targets": 1464, "unique_tiles": 1048, "targets_sha256": "616d5d55312a03a49dff740a054cb757d7ad26d20dc21edd0ca33afb44e729f0", "generated": 4000, "accepted": 732, "replay_targets": 732, "parent": "step_0001000-a7a3c2c550c5"}

@@ -1,0 +1,6 @@
+{
+  "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r3_round_1\\step_0000250",
+  "model_version": "step_0000250-f81274a0d947",
+  "dev_balanced_accuracy": 0.8994444444444445,
+  "step": 250
+}

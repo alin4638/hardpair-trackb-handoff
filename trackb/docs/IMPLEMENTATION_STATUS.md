@@ -23,7 +23,12 @@
 | Streamlit 演示、版本、区域、反馈与队列 | code_ready / gpu_pending | `app.py`；语法检查，真实图像及 GPU 结果浏览待组员 |
 | 命令、前置检查、PowerShell 手册与数据恢复 | code_ready / cpu_checked / gpu_pending | `scripts/run_pipeline.py`、`docs/WINDOWS_RUNBOOK.md`；八阶段 dry-run |
 
-当前没有任何真实 GPU 阶段可登记为 `gpu_verified`。运行时只有相应 GPU 阶段完成，才会写入该状态。
+**2026-10-18 GPU 实测更新：** 组员 RTX 4080 Laptop 上已实际完成 smoke_4080_v1/v2 与正式 laptop_4080_v1 的
+cache、zeroshot、R1（含 10 步中断与恢复）、regions、R2、R3 两轮和反馈基线/查询选择，这些阶段为 `gpu_verified`；
+反馈更新等待真实专家标签。实测环境、修复项、指标与证据见 [GPU_RUN_2026-10-17.md](GPU_RUN_2026-10-17.md)
+和 `validation/gpu_2026-10-17/`。以下表格保留 CPU 交付时的原始状态记录。
+
+（CPU 交付时）当前没有任何真实 GPU 阶段可登记为 `gpu_verified`。运行时只有相应 GPU 阶段完成，才会写入该状态。
 CPU 模拟后端在临时目录生成的流程记录仅作为测试，不能混入正式 results。
 
 ## 已验证边界

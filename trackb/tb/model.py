@@ -54,6 +54,10 @@ class Student:
             for n,v in tensors.items():
                 if n not in params: raise ValueError(f'Visual checkpoint mismatch: {n}')
                 params[n].data.copy_(v.to(params[n].device,params[n].dtype))
+        self.merged=False
+        if checkpoint and not trainable and not c['model']['load_in_4bit']:
+            # Inference only: fold LoRA into the base weights (measured ~1.9x faster decoding on the 4080).
+            model=model.merge_and_unload();self.merged=True
         if trainable:
             # fp32 trainable tensors make fp16 GradScaler safe, including optional visual modules.
             for p in model.parameters():
@@ -82,24 +86,53 @@ class Student:
             inp['labels']=labels
         return inp
 
+    def _image(self,image):
+        if isinstance(image,(str,Path)):
+            with Image.open(image) as im: return im.convert('RGB').resize((224,224))
+        return image
+
+    def _prefix(self,prompt):
+        msgs=[{'role':'user','content':[{'type':'image'},{'type':'text','text':prompt}]}]
+        return self.proc.apply_chat_template(msgs,tokenize=False,add_generation_prompt=True)
+
+    def _batch(self,texts,images,side):
+        tok=self.proc.tokenizer;old=tok.padding_side;tok.padding_side=side
+        try: x=self.proc(text=texts,images=images,padding=True,return_tensors='pt').to(self.device)
+        finally: tok.padding_side=old
+        if x['input_ids'].shape[1]>self.c['model']['max_length']:
+            raise ValueError('Sequence exceeds max_length; increase explicitly (targets are never silently truncated)')
+        return x
+
     def scores(self,image):
-        torch=self.torch;self.model.eval();scores=[];lengths=[]
+        """Nine candidate codes in one right-padded batch; same prompt, tokens and summed log-likelihood rule."""
+        torch=self.torch;self.model.eval();image=self._image(image);prefix=self._prefix(CLASS_PROMPT)
+        pref=self.proc(text=[prefix],images=[image],return_tensors='pt')['input_ids'][0].tolist()
+        x=self._batch([prefix+label for label in CLASSES],[image]*len(CLASSES),'right')
+        labels=torch.tensor([assistant_labels(x['input_ids'][i].tolist(),pref,x['attention_mask'][i].tolist())
+                             for i in range(len(CLASSES))],device=self.device)
+        start=len(pref)-1  # logits at position t predict token t+1; candidates begin at len(pref)
         with torch.inference_mode(),torch.autocast('cuda',dtype=self.dtype):
-            for label in CLASSES:
-                x=self.inputs(image,CLASS_PROMPT,label,include_end=False)
-                labels=x.pop('labels')[:,1:]; mask=labels!=-100
-                logits=self.model(**x).logits[:,:-1].float()
-                logp=logits.log_softmax(-1).gather(-1,labels.clamp_min(0).unsqueeze(-1)).squeeze(-1)
-                scores.append(float(logp[mask].sum()));lengths.append(int(mask.sum()))
-        return {**normalize_scores(scores),'candidate_token_lengths':lengths}
+            logits=self.model(**x).logits[:,start:-1].float()
+            target=labels[:,start+1:];mask=target!=-100
+            logp=logits.log_softmax(-1).gather(-1,target.clamp_min(0).unsqueeze(-1)).squeeze(-1)
+            scores=(logp*mask).sum(1)
+        return {**normalize_scores([float(s) for s in scores]),'candidate_token_lengths':[int(n) for n in mask.sum(1)]}
+
+    def generate_many(self,images,prompts,sample=False,predictions=None,n=1):
+        """Left-padded batched decoding; returns len(images)*n texts in input order."""
+        torch=self.torch;self.model.eval()
+        predictions=predictions or [None]*len(images)
+        fixed=[f'Diagnosis: {p}\n' if p else '' for p in predictions]
+        x=self._batch([self._prefix(p)+f for p,f in zip(prompts,fixed)],[self._image(i) for i in images],'left')
+        with torch.inference_mode(),torch.autocast('cuda',dtype=self.dtype):
+            options={'do_sample':sample,'max_new_tokens':256,'use_cache':True,'num_return_sequences':n,
+                     'pad_token_id':self.proc.tokenizer.pad_token_id}
+            # Qwen2-VL's generation_config ships top_k=1, which silently turns sampling into greedy decoding
+            # (smoke_4080_v1 R3: 4 identical candidates per tile). top_k=0 disables it: pure nucleus sampling.
+            if sample: options.update(temperature=0.8,top_p=0.95,top_k=0)
+            out=self.model.generate(**x,**options)
+        new=out[:,x['input_ids'].shape[1]:]
+        return [fixed[i//n]+self.proc.decode(new[i],skip_special_tokens=True).strip() for i in range(len(new))]
 
     def generate(self,image,prompt,sample=False,prediction=None):
-        torch=self.torch;self.model.eval()
-        fixed=f'Diagnosis: {prediction}\n' if prediction else ''
-        inp=self.inputs(image,prompt,fixed,include_end=False) if fixed else self.inputs(image,prompt)
-        inp.pop('labels',None)
-        with torch.inference_mode(),torch.autocast('cuda',dtype=self.dtype):
-            options={'do_sample':sample,'max_new_tokens':256,'use_cache':True}
-            if sample: options.update(temperature=0.8,top_p=0.95)
-            out=self.model.generate(**inp,**options)
-        return fixed+self.proc.decode(out[0,inp['input_ids'].shape[1]:],skip_special_tokens=True).strip()
+        return self.generate_many([image],[prompt],sample,[prediction])[0]

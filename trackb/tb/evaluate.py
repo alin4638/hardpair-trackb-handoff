@@ -27,7 +27,7 @@ def score_rows(student,rows,path,version,rationales_path=None,cache=None,thresho
     """Flush after each tile; restart skips only matching model and image identities."""
     path=Path(path); partial=path.with_suffix('.partial.jsonl')
     contract={'model_version':version,'ids':rows.tile_id.tolist(),'paths':rows.path.tolist(),'image_hashes':[file_hash(p) for p in rows.local_path],
-              'scoring':'sum log p(class code tokens); no EOS; fixed prompt v1'}
+              'scoring':'sum log p(class code tokens); no EOS; fixed prompt v1; nine candidates batched right-padded'}
     old=read_json(path.with_suffix('.contract.json'))
     if old and old!=contract: raise ValueError('Prediction contract changed; use a new output filename')
     atomic_json(path.with_suffix('.contract.json'),contract)
@@ -38,13 +38,20 @@ def score_rows(student,rows,path,version,rationales_path=None,cache=None,thresho
         if row.tile_id not in done:
             pred={'tile_id':row.tile_id,**student.scores(row.local_path)}
             append_jsonl(partial,pred);done[row.tile_id]=pred
-        if rationales_path and row.tile_id not in rr:
-            p=done[row.tile_id]
-            text=student.generate(row.local_path,generation_prompt(cache.descriptors,p['pred'],p['top2']),prediction=p['pred'])
-            check=validate(text,p['pred'],cache.read('conch',row,'regions'),cache.descriptors,threshold,cache.read('musk',row,'regions'),expected_rival=p['top2'])
-            # Do not repair a contradictory generated answer into a claimed successful output.
-            rr[row.tile_id]={'tile_id':row.tile_id,'pred':p['pred'],'rationale':text,'model_version':version,**check}
-            append_jsonl(rationales_path,rr[row.tile_id])
+    if rationales_path:
+        # Greedy rationales in small left-padded batches; each tile is still flushed as soon as it is checked.
+        pending=[row for row in rows.itertuples() if row.tile_id not in rr]
+        size=max(1,int(getattr(student,'c',{}).get('model',{}).get('generate_batch',8)))
+        for offset in range(0,len(pending),size):
+            batch=pending[offset:offset+size];ps=[done[row.tile_id] for row in batch]
+            texts=student.generate_many([row.local_path for row in batch],
+                                        [generation_prompt(cache.descriptors,p['pred'],p['top2']) for p in ps],
+                                        predictions=[p['pred'] for p in ps])
+            for row,p,text in zip(batch,ps,texts):
+                check=validate(text,p['pred'],cache.read('conch',row,'regions'),cache.descriptors,threshold,cache.read('musk',row,'regions'),expected_rival=p['top2'])
+                # Do not repair a contradictory generated answer into a claimed successful output.
+                rr[row.tile_id]={'tile_id':row.tile_id,'pred':p['pred'],'rationale':text,'model_version':version,**check}
+                append_jsonl(rationales_path,rr[row.tile_id])
     frame=pd.DataFrame([done[x] for x in rows.tile_id])
     frame.drop(columns=['candidate_token_lengths']).to_csv(path,index=False)
     return frame,list(rr.values())

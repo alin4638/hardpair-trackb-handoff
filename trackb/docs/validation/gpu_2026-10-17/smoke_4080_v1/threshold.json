@@ -1,0 +1,32 @@
+{
+  "threshold": 0.04,
+  "calibration": "train_dev class-match proxy",
+  "precision_constraint_met": false,
+  "n_dev": 18,
+  "trials": [
+    {
+      "threshold": 0.0,
+      "accepted": 79,
+      "precision": 0.12658227848101267,
+      "true_accepted": 10
+    },
+    {
+      "threshold": 0.01,
+      "accepted": 78,
+      "precision": 0.11538461538461539,
+      "true_accepted": 9
+    },
+    {
+      "threshold": 0.02,
+      "accepted": 74,
+      "precision": 0.12162162162162163,
+      "true_accepted": 9
+    },
+    {
+      "threshold": 0.04,
+      "accepted": 71,
+      "precision": 0.1267605633802817,
+      "true_accepted": 9
+    }
+  ]
+}
