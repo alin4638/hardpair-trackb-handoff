@@ -5,6 +5,9 @@ Implementation lives entirely in `trackb/`. Read [AGENTS.md](AGENTS.md),
 [delivery status](docs/IMPLEMENTATION_STATUS.md).
 
 **GPU operator: start with [Windows PowerShell runbook](docs/WINDOWS_RUNBOOK.md).**
+If you already completed the October 17 GPU run, use the
+[regional explanation and feedback follow-up](docs/FOLLOWUP_GPU.md): it reuses your
+R2 weights/caches and runs true-label feedback from the isolated pool.
 The default model is Qwen2-VL-2B with language LoRA. CONCH/MUSK caches are built
 sequentially and released before student training. No remote GPU service is required.
 
@@ -14,7 +17,8 @@ python scripts/run_pipeline.py --help
 python scripts/run_pipeline.py --stage prepare --config configs/laptop_4080.yaml --dry-run
 ```
 
-Stages: `prepare`, `cache` (features or regions), `zeroshot`, `r1`, `r2`, `r3`,
+Stages: `prepare`, `cache` (features or regions), `evidence` (CPU calibration from cached scores),
+`explain` (guided inference), `zeroshot`, `r1`, `r2`, `r3`,
 `feedback`, `report`. Formal and smoke runs have separate configurations, targets,
 checkpoints, results and feedback histories. `--resume` validates run/target identity.
 

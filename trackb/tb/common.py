@@ -53,7 +53,7 @@ def load_config(path):
     for key in ('manifest', 'roles', 'data_root', 'descriptors', 'run_dir', 'feedback_dir'):
         p = Path(os.path.expandvars(c[key])).expanduser()
         c[key] = str(p if p.is_absolute() else ROOT / p)
-    for key in ('extra_manifest',):
+    for key in ('extra_manifest', 'inherit_run', 'cache_dir'):
         if c.get(key):
             p = Path(os.path.expandvars(c[key])).expanduser()
             c[key] = str(p if p.is_absolute() else ROOT / p)

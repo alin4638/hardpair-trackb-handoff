@@ -28,11 +28,20 @@ def r1(rows,hard=None):
             out.append(target(row,'Which tissue type is this H&E image? Choose '+ ' or '.join(f'{cl} ({CLASS_NAMES[cl]})' for cl in pair)+'. Answer with the code only.',row.label,'dataset_label',3))
     return out
 
-def r2(rows,cache,threshold):
+def r2(rows,cache,threshold,guide=None):
     if not set(rows.role)<= {'train_fit','extra_train'}: raise ValueError('R2 cannot train held-out roles')
     out=[]
     for row in rows.itertuples():
         scores=cache.read('conch',row,'regions');e=evidence(scores,cache.descriptors,row.label)
+        if guide is not None:
+            # Pick the strongest competing tissue class without consulting held-out labels.
+            z=guide.normalized('conch',scores)
+            rival=max((cl for cl in CLASSES if cl!=row.label),
+                      key=lambda cl:float(z[:,[i for i,d in enumerate(cache.descriptors) if d['label']==cl]].max()))
+            e=guide.retrieve(row,row.label,rival)
+            if not e['accepted']: continue
+            t=target(row,guide.prompt(e),render(e),'automatic_CONCH_calibrated_region_evidence')
+            t['evidence']=e;out.append(t);continue
         if e['margin']<=threshold: continue
         musk=cache.read('musk',row,'regions')
         t=target(row,generation_prompt(cache.descriptors),render(e),'automatic_CONCH_region_evidence')
@@ -48,10 +57,13 @@ def mix(primary,replay,fraction=0.5,seed=0):
     rng=random.Random(seed)
     return primary+[dict(x) for x in rng.choices(replay,k=n)] if n else primary
 
-def feedback_targets(m,current,replay,log_path,fraction=0.5):
+def feedback_targets(m,current,replay,log_path,fraction=0.5,class_replay_fraction=0):
     rows=training_rows(m,pool_ids=list(current),feedback=current,log_path=log_path)
     rows=rows[rows.tile_id.isin(current)]
     targets=[target(row,CLASS_PROMPT,row.label,current[row.tile_id]['feedback_source']) for row in rows.itertuples()]
     fit=set(m.loc[m.role=='train_fit','tile_id'])
     valid=[t for t in replay if t['tile_id'] in fit and (t['tile_id'] not in current or t['label']==current[t['tile_id']]['corrected_label'])]
+    if class_replay_fraction:
+        # Regional replay alone previously collapsed the nine-way class scoring prompt.
+        valid=mix(valid,r1(m[m.role=='train_fit']),class_replay_fraction)
     return mix(targets,valid,fraction)

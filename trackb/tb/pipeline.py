@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import platform
 import importlib.metadata
+from copy import deepcopy
 import pandas as pd
 from .common import ROOT,atomic_json,read_json,read_jsonl,write_jsonl,append_jsonl,file_hash,digest
 from .data import load_manifest,freeze_roles,training_rows,CLASSES
@@ -15,7 +16,15 @@ from .grounding import calibrate,generation_prompt,validate
 from .evaluate import score_rows,metrics,upsert_csv
 from .feedback import current,submit,select,validate_records
 
-STAGES=['prepare','cache','zeroshot','r1','r2','r3','feedback','report']
+STAGES=['prepare','cache','evidence','explain','zeroshot','r1','r2','r3','feedback','report']
+
+def feedback_config(c,n):
+    result=deepcopy(c)
+    schedule=result['feedback'].get('train',{})
+    result['train'].update({k:v for k,v in schedule.items() if k not in ('steps_per_label','min_steps','max_steps')})
+    if 'steps_per_label' in schedule:
+        result['train']['steps']=max(schedule['min_steps'],min(schedule['max_steps'],int(n*schedule['steps_per_label'])))
+    return result
 
 def diagnostics(c):
     info={'python':platform.python_version(),'platform':platform.platform(),'packages':{},'data_root':c['data_root'],
@@ -93,7 +102,8 @@ def stage_eval(c,m,state,stage,cp=None,grounded=False,cache=None,threshold=0):
     pd.DataFrame([{'class':cl,'recall':report['recall'][cl],'n':report['class_counts'].get(cl,0)} for cl in CLASSES]).to_csv(result_dir/'per_class_recall.csv',index=False)
     pd.DataFrame.from_dict(report['confusion_matrix'],orient='index').to_csv(result_dir/'confusion_matrix.csv')
     cols=['run_id','stage','model_version','manifest_version','n_eval','balanced_accuracy',
-          'pair_error_STR_MUS','pair_error_DEB_MUC','pair_error_NORM_TUM','format_rate','grounding_pass_rate','n_rationale']
+          'pair_error_STR_MUS','pair_error_DEB_MUC','pair_error_NORM_TUM','format_rate','grounding_pass_rate','n_rationale',
+          'retrieved_support_rate','student_grounding_rate']
     upsert_csv(Path(c['run_dir'])/'results/vlm_summary.csv',{k:report[k] for k in cols},['run_id','stage','model_version'])
     # R1/zero-shot have an empty rationale artifact with n_rationale=0.
     if rrpath is None:
@@ -118,17 +128,35 @@ def run(c,args):
     if state.get('code_hash') and state['code_hash']!=code_hash: raise ValueError('Code changed during run; use a new run_dir or explicitly migrate artifacts')
     state.update(code_head=head,code_hash=code_hash,descriptor_sha256=file_hash(c['descriptors']))
     stage=args.stage
-    state['stages'][stage]={'status':'running','validation_status':'gpu_pending' if stage not in ('prepare','report') else 'code_ready'};save_state(c,state)
+    state['stages'][stage]={'status':'running','validation_status':'gpu_pending' if stage not in ('prepare','evidence','report') else 'code_ready'};save_state(c,state)
     if stage=='prepare':
         evidence=prepare(c,not args.skip_images);env=diagnostics(c);atomic_json(root/'environment.json',env)
         state['manifest_version']=evidence['manifest_version']
+        from .continuation import inherit
+        inherit(c,state)
         state['stages'][stage]={'status':'cpu_checked','evidence':evidence,'gpu_status':'gpu_pending'}
         save_state(c,state);return state['stages'][stage]
     if stage=='report': return report(c,state)
+    if stage=='evidence':
+        from .region_guide import fit_guide
+        m=load_manifest(True,c);cache=Cache(c,m);fit=fit_rows(m,c)
+        guide=fit_guide(fit[fit.role=='train_fit'],dev_rows(m,c),cache,
+                        c.get('grounding',{}).get('minimum_descriptor_auc',.55),
+                        c.get('grounding',{}).get('musk_weight',.15))
+        targets=build_sft.r2(fit,cache,0,guide)
+        if not targets: raise ValueError('No supported regional targets; inspect region_guide.json')
+        write_jsonl(root/'targets/r2.jsonl',targets)
+        build_log(c,'evidence',targets,guide_version=guide.version,input_tiles=len(fit))
+        state['stages'][stage]={'status':'cpu_checked','guide_version':guide.version,'targets':len(targets)}
+        save_state(c,state);return state['stages'][stage]
     import torch
     if not torch.cuda.is_available(): raise RuntimeError('This stage requires the teammate CUDA machine; use --dry-run in CPU development')
     m=load_manifest(True,c);dev=dev_rows(m,c);fit=fit_rows(m,c)
     cache=Cache(c,m)
+    guide=None
+    if c.get('grounding',{}).get('mode')=='guided' and stage in ('r2','r3','feedback','explain'):
+        from .region_guide import RegionGuide
+        guide=RegionGuide.load(cache)
     if stage=='cache':
         if args.cache_kind=='features':
             base=fit[fit.role=='train_fit'];cache.build(base,'features')
@@ -144,6 +172,10 @@ def run(c,args):
             export_examples(fit,cache,root/'examples')
         state['stages'][f'cache_{args.cache_kind}']={'status':'gpu_verified','evidence':str(cache.root)}
     elif stage=='zeroshot': stage_eval(c,m,state,'zeroshot')
+    elif stage=='explain':
+        best=max((v for k,v in state['checkpoints'].items() if k in ('r1','r2','r2_parent','r3','feedback')),
+                 key=lambda v:v['dev_balanced_accuracy'])
+        stage_eval(c,m,state,'guided_explain',best,True,cache)
     elif stage in ('r1','r2'):
         from .train_lora import train
         if stage=='r1':
@@ -151,7 +183,8 @@ def run(c,args):
         else:
             threshold=read_json(root/'threshold.json')
             if threshold is None: raise FileNotFoundError('Run cache --cache-kind regions first')
-            targets=build_sft.r2(fit,cache,threshold['threshold']);name='r2_grounded';initial=checkpoint(state,'r1')['path']
+            targets=build_sft.r2(fit,cache,threshold['threshold'],guide);name='r2_grounded'
+            initial=checkpoint(state,c.get('r2',{}).get('initial_checkpoint','r1'))['path']
         write_jsonl(root/'targets'/f'{stage}.jsonl',targets);build_log(c,stage,targets,input_tiles=len(fit),accepted_targets=len(targets))
         train_targets=targets
         fraction=(c.get('r2') or {}).get('class_replay_fraction',0)
@@ -174,6 +207,10 @@ def run_r3(c,args,m,fit,dev,cache,state):
     from .model import Student
     from .train_lora import train,seed_all
     root=Path(c['run_dir']);threshold=read_json(root/'threshold.json')['threshold']
+    guide=None
+    if c.get('grounding',{}).get('mode')=='guided':
+        from .region_guide import RegionGuide
+        guide=RegionGuide.load(cache)
     parent=getattr(args,'r3_from','r2');base=checkpoint(state,parent)
     cycle='r3' if parent=='r2' else 'r3_after_'+digest(base['model_version'])[:12]
     fit_ids=set(m.loc[m.role=='train_fit','tile_id'])
@@ -193,22 +230,28 @@ def run_r3(c,args,m,fit,dev,cache,state):
         try:
             # Rank current mistakes and low-margin examples using current student predictions.
             scores,_=score_rows(student,fit,work/'fit_predictions.csv',selected['model_version'])
-            ranked=fit.merge(scores[['tile_id','pred','margin']],on='tile_id')
+            ranked=fit.merge(scores[['tile_id','pred','top2','margin']],on='tile_id')
             ranked['wrong']=ranked.label!=ranked.pred
             ranked=ranked.sort_values(['wrong','margin','tile_id'],ascending=[False,True,True]).head(c['r3']['max_tiles'])
             accepted=[];generated=0
             for row in ranked.itertuples():
+                e=guide.retrieve(row,row.label,row.top2 if row.pred==row.label else row.pred) if guide else None
+                if e is not None and not e['accepted']: continue
+                prompt=guide.prompt(e) if guide else generation_prompt(cache.descriptors)
                 p=work/(digest(row.tile_id)+'.json');stored=read_json(p)
                 if stored is None:
                     # Seed per tile makes crash recovery independent of completed generation count.
                     seed_all(c['seed']+iteration+int(digest(row.tile_id)[:8],16))
-                    answers=student.generate_many([row.local_path],[generation_prompt(cache.descriptors)],True,n=c['r3']['candidates'])
+                    answers=student.generate_many([row.local_path],[prompt],True,n=c['r3']['candidates'])
                     stored={'tile_id':row.tile_id,'answers':answers};atomic_json(p,stored)
                 generated+=len(stored['answers']);kept=0
                 for text in dict.fromkeys(stored['answers']):
-                    check=validate(text,row.label,cache.read('conch',row,'regions'),cache.descriptors,threshold,cache.read('musk',row,'regions'))
+                    if guide:
+                        check={'grounding_pass':guide.finish(row,row.label,e['rival'],text)['student_grounding_pass']}
+                    else:
+                        check=validate(text,row.label,cache.read('conch',row,'regions'),cache.descriptors,threshold,cache.read('musk',row,'regions'))
                     if check['grounding_pass']:
-                        accepted.append(build_sft.target(row,generation_prompt(cache.descriptors),text,'student_self_generated_teacher_filtered'))
+                        accepted.append(build_sft.target(row,prompt,text,'student_self_generated_teacher_filtered'))
                         kept+=1
                     if kept>=c['r3']['max_per_tile']: break
         finally: del student;gc.collect();__import__('torch').cuda.empty_cache()
@@ -237,7 +280,7 @@ def run_feedback(c,args,m,dev,cache,state):
     if not replay: raise FileNotFoundError('Feedback requires valid R2 replay')
     fb=read_json(folder/'state.json')
     if fb is None:
-        choices=[v for k,v in state['checkpoints'].items() if k in ('r1','r2','r3')]
+        choices=[v for k,v in state['checkpoints'].items() if k in ('r1','r2','r2_parent','r3')]
         if not choices: raise FileNotFoundError('No dev-selected checkpoint available')
         anchor=max(choices,key=lambda v:v['dev_balanced_accuracy'])
         fb={'anchor':anchor,'current':anchor,'trained_feedback_hash':None,'updates':[]}
@@ -259,12 +302,17 @@ def run_feedback(c,args,m,dev,cache,state):
         h=digest(active)
         if active and fb['trained_feedback_hash']!=h:
             name=f'fb_{len(active)}';update=f'{name}_{h[:12]}'
-            targets=build_sft.feedback_targets(m,active,replay,folder/f'{update}_labels.csv',c['feedback']['replay_fraction'])
+            targets=build_sft.feedback_targets(m,active,replay,folder/f'{update}_labels.csv',c['feedback']['replay_fraction'],
+                                               c['feedback'].get('class_replay_fraction',0))
             write_jsonl(root/'targets'/f'{update}.jsonl',targets);build_log(c,update,targets,n_feedback=len(active))
-            best=train(c,targets,dev,update,fb['current']['path'],args.resume,args.stop_after)
+            update_config=feedback_config(c,len(active))
+            atomic_json(root/'targets'/f'{update}_train_config.json',update_config['train'])
+            best=train(update_config,targets,dev,update,fb['current']['path'],args.resume,args.stop_after)
             curve(name,best,active)
             fb.update(current=best,trained_feedback_hash=h)
-            fb['updates'].append({'stage':name,'model_version':best['model_version'],'feedback_hash':h,'n_feedback':len(active)})
+            fb['updates'].append({'stage':name,'model_version':best['model_version'],'feedback_hash':h,'n_feedback':len(active),
+                                  'n_changed':sum(r['corrected_label']!=r['original_prediction'] for r in active.values()),
+                                  'train_config':update_config['train']})
             atomic_json(root/'targets/active_feedback.json',{'target_file':str(root/'targets'/f'{update}.jsonl'),'feedback_hash':h,'current_labels':{k:v['corrected_label'] for k,v in active.items()},'supersedes':fb['updates'][-2]['feedback_hash'] if len(fb['updates'])>1 else None})
             atomic_json(folder/'effective_feedback.json',active)
             atomic_json(folder/'state.json',fb)
@@ -289,7 +337,7 @@ def run_feedback(c,args,m,dev,cache,state):
 
 def report(c,state):
     root=Path(c['run_dir']);dest=root/'return_bundle';dest.mkdir(exist_ok=True)
-    for name in ('environment.json','effective_config.json','run_manifest.json','target_build_log.jsonl','threshold.json','model_revision.json','packages.txt','nvidia-smi.txt'):
+    for name in ('environment.json','effective_config.json','run_manifest.json','target_build_log.jsonl','threshold.json','region_guide.json','inheritance.json','model_revision.json','packages.txt','nvidia-smi.txt'):
         if (root/name).exists(): shutil.copy2(root/name,dest/name)
     for name in ('logs','results','examples'):
         if (root/name).exists(): shutil.copytree(root/name,dest/name,dirs_exist_ok=True)

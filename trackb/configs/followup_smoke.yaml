@@ -1,0 +1,67 @@
+run_id: followup_smoke_v1
+run_dir: outputs/followup_smoke_v1
+inherit_run: outputs/laptop_4080_v1
+cache_dir: outputs/laptop_4080_v1/cache
+manifest: data/manifest.csv
+roles: data/roles.csv
+data_root: data/raw
+descriptors: configs/descriptors_crc.yaml
+extra_manifest: null
+seed: 0
+model:
+  name: Qwen/Qwen2-VL-2B-Instruct
+  revision: main
+  load_in_4bit: false
+  gradient_checkpointing: true
+  train_visual: []  # e.g. [visual.merger]; exact matched parameters are logged
+  lora_r: 16
+  lora_alpha: 32
+  max_length: 1024
+  min_pixels: 50176
+  max_pixels: 50176
+  generate_batch: 8  # greedy rationale batch; smoke_4080_v1 measured 1.56 s/tile single vs 0.32 s/tile batched
+grounding:
+  mode: guided
+  minimum_descriptor_auc: 0.55
+  musk_weight: 0.15
+r2:
+  initial_checkpoint: r2_parent
+  # Class-code replay during grounded R2 (smoke_4080_v1 R2 collapsed class scoring to one class).
+  class_replay_fraction: 0.5
+train:
+  steps: 20
+  grad_accum: 2
+  lr: 0.00002
+  save_every: 10
+  eval_every: 20
+  dev_limit: 18
+  sample_limit: 54
+cache:
+  batch_size: 16
+  teachers: [conch, musk]
+  revisions: {conch: main, musk: main}
+  hard_fraction: 0.25
+  threshold_candidates: [0.0, 0.01, 0.02, 0.04, 0.06, 0.08, 0.1, 0.15]  # smoke: precision rose with threshold
+  minimum_dev_precision: 0.8
+r3:
+  rounds: 2
+  candidates: 4
+  max_tiles: 1000
+  max_per_tile: 2
+  replay_fraction: 0.5
+feedback:
+  source: simulated_dataset_label
+  nodes: [2, 4]
+  replay_fraction: 0.5
+  class_replay_fraction: 0.5
+  train:
+    steps_per_label: 2
+    min_steps: 20
+    max_steps: 20
+    lr: 0.00002
+    grad_accum: 4
+    save_every: 10
+    eval_every: 20
+
+feedback_dir: data/feedback_followup_smoke_v1
+inherit_queries: false

@@ -8,9 +8,10 @@ import platform
 from datetime import datetime,timezone
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from tb.common import load_config,atomic_json,file_hash
+from tb.pipeline import STAGES
 
 def main():
-    dest=ROOT/'docs/validation';dest.mkdir(parents=True,exist_ok=True)
+    dest=ROOT/'docs/validation/followup_2026-10-18';dest.mkdir(parents=True,exist_ok=True)
     commands=[[sys.executable,'-m','pytest','-q','tests','--junitxml='+str(dest/'cpu-tests.xml')],
               [sys.executable,'-m','compileall','-q','tb','scripts','app.py'],
               [sys.executable,'scripts/run_pipeline.py','--help']]
@@ -20,8 +21,11 @@ def main():
         # The real frozen sidecars are read/validated; no image/model data is loaded.
         config=Path(temp)/'cpu.json';config.write_text(json.dumps(c))
         commands += [[sys.executable,'scripts/run_pipeline.py','--stage','prepare','--config',str(config),'--skip-images']]
-        for stage in ('prepare','cache','zeroshot','r1','r2','r3','feedback','report'):
+        for stage in STAGES:
             commands.append([sys.executable,'scripts/run_pipeline.py','--stage',stage,'--config',str(config),'--dry-run'])
+        for filename in ('followup_smoke.yaml','followup_4080.yaml'):
+            for stage in ('prepare','evidence','r2','feedback','report'):
+                commands.append([sys.executable,'scripts/run_pipeline.py','--stage',stage,'--config',str(ROOT/'configs'/filename),'--dry-run'])
         for cmd in commands:
             p=subprocess.run(cmd,cwd=ROOT,text=True,capture_output=True)
             results.append({'command':cmd,'exit_code':p.returncode,'stdout':p.stdout,'stderr':p.stderr})

@@ -1,5 +1,11 @@
 # Track B 代码交付状态
 
+**2026-10-18 后续交付：** 针对组员回传的区域解释弱、反馈停在查询阶段，新增
+缓存证据校准与条件解释、R2 增量训练、隔离 pool 真标签的累计反馈更新及演示操作入口。
+新代码为 `code_ready`，CPU 检查见 `validation/followup_2026-10-18/`；新 GPU 阶段为
+`gpu_pending`。请组员按 [FOLLOWUP_GPU.md](FOLLOWUP_GPU.md) 从现有权重和缓存继续。
+以下保留原交付与首轮 GPU 的历史记录。
+
 日期：2026-10-17。基准 HEAD：`18f5f0a3266f91cb0d40dff80a9ab16ffe8949de`，当前分支 `main`。
 未新建/切换分支。用户已授权将交付提交并推送至 `alin4638/hardpair-trackb-handoff` 的现有 `main`；
 发布提交以 `git log -1` 与交付消息中的提交号为准。所有项目修改限定在工作仓库 `trackb/`。

@@ -47,4 +47,15 @@ def select(preds,used,n,version):
     rows=preds[~preds.tile_id.isin(used)].sort_values(['margin','tile_id']).head(n)
     query_id=digest({'model':version,'ids':rows.tile_id.tolist()})[:20]
     return [{'tile_id':r.tile_id,'query_model_version':version,'original_prediction':r.pred,
-             'margin':float(r.margin),'query_id':query_id,'selected_at':datetime.now(timezone.utc).isoformat()} for r in rows.itertuples()]
+             'top2':getattr(r,'top2',None), 'margin':float(r.margin),'query_id':query_id,'selected_at':datetime.now(timezone.utc).isoformat()} for r in rows.itertuples()]
+
+def import_labels(frame,queries,manifest,path,source):
+    """Import only already-selected pool IDs; CSV labels never create selections."""
+    if source not in SOURCES: raise ValueError('Choose expert_label or simulated_dataset_label')
+    if not {'tile_id','corrected_label'}<=set(frame.columns): raise ValueError('CSV requires tile_id,corrected_label')
+    if not frame.tile_id.is_unique: raise ValueError('One current label per tile is required')
+    lookup={q['tile_id']:q for q in queries};pool=set(manifest.loc[manifest.role=='pool','tile_id'])
+    for row in frame.itertuples():
+        if row.tile_id not in pool or row.tile_id not in lookup: raise ValueError(f'Not a selected pool tile: {row.tile_id}')
+        if row.corrected_label not in CLASSES: raise ValueError(f'Unknown class: {row.corrected_label}')
+    return [submit(path,lookup[r.tile_id],r.corrected_label,source) for r in frame.itertuples()]

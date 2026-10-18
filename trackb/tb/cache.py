@@ -11,7 +11,7 @@ from .crops import crop_grid
 
 class Cache:
     def __init__(self,c,manifest):
-        self.c=c; self.root=Path(c['run_dir'])/'cache'
+        self.c=c; self.root=Path(c.get('cache_dir') or Path(c['run_dir'])/'cache')
         self.descriptors=yaml.safe_load(Path(c['descriptors']).read_text())['descriptors']
         self.identity={'manifest_version':manifest.attrs['manifest_version'],
                        'descriptors':file_hash(c['descriptors']), 'geometry':'224-112-56-v1',

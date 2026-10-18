@@ -21,6 +21,11 @@ def metrics(rows,preds,rationales=None):
     rr=rationales or []
     result.update(n_rationale=len(rr),format_rate=sum(bool(x['format_pass']) for x in rr)/len(rr) if rr else None,
                   grounding_pass_rate=sum(bool(x['grounding_pass']) for x in rr)/len(rr) if rr else None)
+    guided=[x for x in rr if 'evidence_status' in x]
+    result.update(explanation_sources={s:sum(x.get('explanation_source','free_student')==s for x in rr)
+                                      for s in {x.get('explanation_source','free_student') for x in rr}},
+                  retrieved_support_rate=sum(x['evidence_status']=='supported' for x in guided)/len(guided) if guided else None,
+                  student_grounding_rate=sum(bool(x.get('student_grounding_pass')) for x in guided)/len(guided) if guided else None)
     return result
 
 def score_rows(student,rows,path,version,rationales_path=None,cache=None,threshold=0):
@@ -33,6 +38,15 @@ def score_rows(student,rows,path,version,rationales_path=None,cache=None,thresho
     atomic_json(path.with_suffix('.contract.json'),contract)
     done={r['tile_id']:r for r in read_jsonl(partial)}
     rr={r['tile_id']:r for r in read_jsonl(rationales_path)} if rationales_path else {}
+    guide=None
+    if rationales_path and getattr(student,'c',{}).get('grounding',{}).get('mode')=='guided':
+        from .region_guide import RegionGuide
+        guide=RegionGuide.load(cache)
+        rp=Path(rationales_path).with_suffix('.contract.json')
+        rc={'model_version':version,'guide_version':guide.version,'mode':'guided'}
+        old=read_json(rp)
+        if old and old!=rc: raise ValueError('Rationale guide changed; use a new output filename')
+        atomic_json(rp,rc)
     from .common import append_jsonl
     for row in rows.itertuples():
         if row.tile_id not in done:
@@ -44,6 +58,17 @@ def score_rows(student,rows,path,version,rationales_path=None,cache=None,thresho
         size=max(1,int(getattr(student,'c',{}).get('model',{}).get('generate_batch',8)))
         for offset in range(0,len(pending),size):
             batch=pending[offset:offset+size];ps=[done[row.tile_id] for row in batch]
+            if guide is not None:
+                evidence=[guide.retrieve(row,p['pred'],p['top2']) for row,p in zip(batch,ps)]
+                indices=[i for i,e in enumerate(evidence) if e['accepted']]
+                texts=student.generate_many([batch[i].local_path for i in indices],
+                        [guide.prompt(evidence[i]) for i in indices],
+                        predictions=[ps[i]['pred'] for i in indices]) if indices else []
+                generated=dict(zip(indices,texts))
+                for i,(row,p) in enumerate(zip(batch,ps)):
+                    rr[row.tile_id]={**guide.finish(row,p['pred'],p['top2'],generated.get(i)),'model_version':version}
+                    append_jsonl(rationales_path,rr[row.tile_id])
+                continue
             texts=student.generate_many([row.local_path for row in batch],
                                         [generation_prompt(cache.descriptors,p['pred'],p['top2']) for p in ps],
                                         predictions=[p['pred'] for p in ps])

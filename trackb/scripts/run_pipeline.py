@@ -27,14 +27,20 @@ def plan(c,args):
     root=Path(c['run_dir']);state=read_json(root/'run_manifest.json',{'checkpoints':{}})
     required=[Path(c['manifest']),Path(c['manifest']).with_suffix('.meta.json')]
     if args.stage not in ('prepare','report'): required += [Path(c['roles']),Path(c['data_root'])]
+    if args.stage=='prepare' and c.get('inherit_run'): required += [Path(c['inherit_run'])/'run_manifest.json']
+    if args.stage=='evidence': required += [Path(c.get('cache_dir') or root/'cache')/'identity.json']
     if args.stage=='r1': required += [root/'hard_train.csv']
     if args.stage in ('r2','r3','feedback'): required += [root/'threshold.json']
     if args.stage in ('r3','feedback'): required += [root/'targets/r2.jsonl']
-    parent={'r2':'r1','r3':'r2'}.get(args.stage)
+    if c.get('grounding',{}).get('mode')=='guided' and args.stage in ('r2','r3','feedback','explain'):
+        required += [root/'region_guide.json']
+    parent={'r2':c.get('r2',{}).get('initial_checkpoint','r1'),'r3':args.r3_from}.get(args.stage)
     if parent:
         cp=state['checkpoints'].get(parent)
         required += [Path(cp['path']) if cp else root/'checkpoints'/f'MISSING_SELECTED_{parent}']
-    return {'stage':args.stage,'gpu_required':args.stage not in ('prepare','report'),
+    if args.stage in ('feedback','explain') and not state['checkpoints']:
+        required += [root/'checkpoints'/'MISSING_SELECTED_CHECKPOINT_RUN_PREPARE']
+    return {'stage':args.stage,'gpu_required':args.stage not in ('prepare','evidence','report'),
             'run_dir':str(root),'logs':str(root/'logs'),'resume':args.resume,
             'prerequisites':[{'path':str(p),'exists':p.exists()} for p in required],
             'cache_note':'Individual teacher image caches and resolved model access checked at execution',

@@ -25,3 +25,10 @@ code_ready, cpu_checked, gpu_pending and gpu_verified with actual evidence. Neve
 success, quality or efficacy from fixtures. Save resumable optimizer/scheduler/RNG/step state,
 adapter and trainable visual tensors. Checkpoint selection uses train_dev only.
 Team freeze: 2026-10-18 15:30 America/Chicago; submission: 2026-10-21.
+
+Follow-up contract (2026-10-18): reuse the teammate GPU run through configs/followup_4080.yaml.
+Use the isolated pool true labels as simulated_dataset_label; keep eval out of updates.
+MHIST HP/SSA labels are not the nine CRC tissue classes and must not be remapped into them.
+Regional explanations expose evidence_conditioned_student, retrieved_teacher_template or
+insufficient_evidence provenance; report raw student acceptance separately from fallback.
+See docs/FOLLOWUP_GPU.md for the current GPU execution handoff.

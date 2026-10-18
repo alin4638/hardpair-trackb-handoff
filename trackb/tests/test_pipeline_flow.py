@@ -82,3 +82,18 @@ def test_expert_flow_does_not_reveal_labels(tmp_path,monkeypatch):
     assert pipeline.run_feedback(c,args,m,m[m.role=='train_dev'],cache,state)=='awaiting_feedback'
     folder=Path(c['feedback_dir']);assert not (folder/'feedback_records.jsonl').exists()
     assert len(read_jsonl(folder/'queries.jsonl'))==2 and not calls
+
+
+def test_followup_feedback_uses_short_schedule_and_fit_class_replay(tmp_path,monkeypatch):
+    c,m,cache,state,args,calls=setup(tmp_path,monkeypatch)
+    c['feedback'].update(source='simulated_dataset_label',nodes=[2,4],class_replay_fraction=.5,
+        train={'steps_per_label':2,'min_steps':4,'max_steps':8,'grad_accum':4,'lr':2e-5})
+    assert pipeline.run_feedback(c,args,m,m[m.role=='train_dev'],cache,state)=='complete'
+    updates=read_json(Path(c['feedback_dir'])/'state.json')['updates']
+    assert [u['train_config']['steps'] for u in updates]==[4,8]
+    assert [u['n_feedback'] for u in updates]==[2,4]
+    for _,targets in calls:
+        assert all(t['tile_id'].startswith(('pool_','train_fit_')) for t in targets)
+    before=len(calls)
+    assert pipeline.run_feedback(c,args,m,m[m.role=='train_dev'],cache,state)=='complete'
+    assert len(calls)==before
