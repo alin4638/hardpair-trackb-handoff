@@ -1,0 +1,6 @@
+{"stage": "evidence", "training_targets": 6571, "unique_tiles": 6571, "targets_sha256": "3f3dc8aac5c4bb7a8f327b08b9e135b82bbe782c42463e4f77138eff60f9f513", "guide_version": "bca2de537a0f5080", "input_tiles": 16200}
+{"stage": "r2", "training_targets": 6571, "unique_tiles": 6571, "targets_sha256": "3f3dc8aac5c4bb7a8f327b08b9e135b82bbe782c42463e4f77138eff60f9f513", "input_tiles": 16200, "accepted_targets": 6571}
+{"stage": "r2_train_mix", "training_targets": 13142, "unique_tiles": 9776, "targets_sha256": "a678383b9d7b468325972a5344dace845cd3f45753e97d00b07c5009e4e0a502", "grounded_targets": 6571, "class_replay_targets": 6571, "class_replay_fraction": 0.5}
+{"stage": "fb_50_36afc1e0a3b5", "training_targets": 100, "unique_tiles": 100, "targets_sha256": "f95d4a68609780061bb6624380bf6507cec827ab54579eff1b8d0de24cdfa292", "n_feedback": 50}
+{"stage": "fb_100_7abc8648cb3e", "training_targets": 200, "unique_tiles": 199, "targets_sha256": "01e9eb550cbbaadfb1440f292289122c653cd88a0ebd376e68b4fb39dfa8cfa1", "n_feedback": 100}
+{"stage": "fb_200_194ff2224aa4", "training_targets": 400, "unique_tiles": 397, "targets_sha256": "5cede20174ec862e17b2d5541e32a1dd2269392b5d926177d0aad95394da811c", "n_feedback": 200}

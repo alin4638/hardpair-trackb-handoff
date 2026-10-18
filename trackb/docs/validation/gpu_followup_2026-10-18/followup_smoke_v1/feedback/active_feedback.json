@@ -1,0 +1,11 @@
+{
+  "target_file": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\targets\\fb_4_912dddf894f9.jsonl",
+  "feedback_hash": "912dddf894f988c5f23dea08100222e24e95f5f8b51b2a8d90572b6fe42d857d",
+  "current_labels": {
+    "7k_MUC_0189": "MUC",
+    "7k_DEB_0087": "DEB",
+    "7k_BACK_0221": "BACK",
+    "7k_BACK_0659": "BACK"
+  },
+  "supersedes": "5f1df362f214730b0333ed47453d0c175e61fd9a1f18385ee723d721a32b738e"
+}

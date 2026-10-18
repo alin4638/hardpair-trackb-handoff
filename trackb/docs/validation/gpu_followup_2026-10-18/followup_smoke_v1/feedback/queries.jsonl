@@ -1,0 +1,4 @@
+{"tile_id": "7k_MUC_0189", "query_model_version": "step_0000020-50ed95dd6481", "original_prediction": "MUC", "top2": "MUS", "margin": 0.0, "query_id": "6323f90b23aa9d2fe2cb", "selected_at": "2026-10-18T16:25:59.300139+00:00"}
+{"tile_id": "7k_DEB_0087", "query_model_version": "step_0000020-50ed95dd6481", "original_prediction": "TUM", "top2": "DEB", "margin": 3.4519931840226725e-06, "query_id": "6323f90b23aa9d2fe2cb", "selected_at": "2026-10-18T16:25:59.300139+00:00"}
+{"tile_id": "7k_BACK_0221", "query_model_version": "step_0000020-c58bf678fdcc", "original_prediction": "ADI", "top2": "BACK", "margin": 0.0, "query_id": "29f79b9952b840c0ec2d", "selected_at": "2026-10-18T16:45:41.246510+00:00"}
+{"tile_id": "7k_BACK_0659", "query_model_version": "step_0000020-c58bf678fdcc", "original_prediction": "ADI", "top2": "BACK", "margin": 0.0, "query_id": "29f79b9952b840c0ec2d", "selected_at": "2026-10-18T16:45:41.246510+00:00"}

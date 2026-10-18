@@ -1,0 +1,6 @@
+{
+  "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\checkpoints\\fb_200_194ff2224aa4\\step_0000200",
+  "model_version": "step_0000200-a755eb3b2def",
+  "dev_balanced_accuracy": 0.9105555555555556,
+  "step": 200
+}

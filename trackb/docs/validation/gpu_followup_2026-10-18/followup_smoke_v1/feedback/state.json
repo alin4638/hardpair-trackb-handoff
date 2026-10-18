@@ -1,0 +1,50 @@
+{
+  "anchor": {
+    "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\checkpoints\\r2_grounded\\step_0000020",
+    "model_version": "step_0000020-50ed95dd6481",
+    "dev_balanced_accuracy": 0.9444444444444444,
+    "step": 20
+  },
+  "current": {
+    "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\checkpoints\\fb_4_912dddf894f9\\step_0000020",
+    "model_version": "step_0000020-63e105ca941b",
+    "dev_balanced_accuracy": 0.9444444444444444,
+    "step": 20
+  },
+  "trained_feedback_hash": "912dddf894f988c5f23dea08100222e24e95f5f8b51b2a8d90572b6fe42d857d",
+  "updates": [
+    {
+      "stage": "fb_2",
+      "model_version": "step_0000020-c58bf678fdcc",
+      "feedback_hash": "5f1df362f214730b0333ed47453d0c175e61fd9a1f18385ee723d721a32b738e",
+      "n_feedback": 2,
+      "n_changed": 1,
+      "train_config": {
+        "steps": 20,
+        "grad_accum": 4,
+        "lr": 2e-05,
+        "save_every": 10,
+        "eval_every": 20,
+        "dev_limit": 18,
+        "sample_limit": 54
+      }
+    },
+    {
+      "stage": "fb_4",
+      "model_version": "step_0000020-63e105ca941b",
+      "feedback_hash": "912dddf894f988c5f23dea08100222e24e95f5f8b51b2a8d90572b6fe42d857d",
+      "n_feedback": 4,
+      "n_changed": 3,
+      "train_config": {
+        "steps": 20,
+        "grad_accum": 4,
+        "lr": 2e-05,
+        "save_every": 10,
+        "eval_every": 20,
+        "dev_limit": 18,
+        "sample_limit": 54
+      }
+    }
+  ],
+  "baseline_done": true
+}

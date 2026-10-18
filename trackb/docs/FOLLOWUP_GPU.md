@@ -143,6 +143,9 @@ of Git. Report actual failures or partial completion and which command can resum
 - `cpu_checked`: see `docs/validation/followup_2026-10-18/cpu-evidence.json` and `cpu-tests.xml`.
   CPU fixtures check 2/4-label updates, revisions, source/role handling, guide selection,
   generated-output fallback and portable continuation; the CLI help and dry-runs are exercised.
-- `gpu_pending`: all new guide quality, fine-tuning, GPU feedback and interactive app behavior.
+- `gpu_verified` (2026-10-18): smoke and formal evidence → R2 refine (incl. stop/resume) → feedback 50/100/200 →
+  report all ran on the RTX 4080 Laptop; see [GPU_FOLLOWUP_2026-10-18.md](GPU_FOLLOWUP_2026-10-18.md). The app was
+  checked headlessly, and an interactive browser session remains pending.
+- `gpu_pending` (at handoff): all new guide quality, fine-tuning, GPU feedback and interactive app behavior.
 - `gpu_verified`: applies to the original teammate run only, documented in
   `docs/GPU_RUN_2026-10-17.md`; no new GPU result is claimed here.

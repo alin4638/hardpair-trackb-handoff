@@ -1,0 +1,5 @@
+run_id,stage,model_version,n_eval,balanced_accuracy,pair_error_STR_MUS,pair_error_DEB_MUC,pair_error_NORM_TUM,anchor_checkpoint,n_feedback,n_changed,n_expert_label,n_simulated_dataset_label,feedback_source,n_source_feedback
+followup_4080_v1,fb_0,step_0000100-565954366c0d,3590,0.8423817004615481,0.2958579881656805,0.0,0.0628166160081053,step_0000100-565954366c0d,0,0,0,0,simulated_dataset_label,0
+followup_4080_v1,fb_50,step_0000100-adedac735126,3590,0.864013609019758,0.2662721893491124,0.0,0.0668693009118541,step_0000100-565954366c0d,50,26,0,50,simulated_dataset_label,50
+followup_4080_v1,fb_100,step_0000200-145e0e179623,3590,0.8654850802297719,0.2445759368836292,0.0,0.0780141843971631,step_0000100-565954366c0d,100,57,0,100,simulated_dataset_label,100
+followup_4080_v1,fb_200,step_0000200-a755eb3b2def,3590,0.8847871697684326,0.22879684418145957,0.0,0.05876393110435663,step_0000100-565954366c0d,200,111,0,200,simulated_dataset_label,200

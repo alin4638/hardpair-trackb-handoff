@@ -1,0 +1,198 @@
+{
+  "run_id": "followup_4080_v1",
+  "checkpoints": {
+    "r1": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r1_sft\\step_0001000",
+      "model_version": "step_0001000-9dbc7783bac4",
+      "dev_balanced_accuracy": 0.8861111111111111,
+      "step": 1000
+    },
+    "r2": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\checkpoints\\r2_grounded\\step_0000100",
+      "model_version": "step_0000100-565954366c0d",
+      "dev_balanced_accuracy": 0.911111111111111,
+      "step": 100
+    },
+    "r3": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r2_grounded\\step_0001000",
+      "model_version": "step_0001000-a7a3c2c550c5",
+      "dev_balanced_accuracy": 0.9077777777777778,
+      "step": 1000
+    },
+    "r2_parent": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\checkpoints\\r2_grounded\\step_0001000",
+      "model_version": "step_0001000-a7a3c2c550c5",
+      "dev_balanced_accuracy": 0.9077777777777778,
+      "step": 1000
+    },
+    "feedback": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\checkpoints\\fb_200_194ff2224aa4\\step_0000200",
+      "model_version": "step_0000200-a755eb3b2def",
+      "dev_balanced_accuracy": 0.9105555555555556,
+      "step": 200
+    }
+  },
+  "stages": {
+    "prepare": {
+      "status": "cpu_checked",
+      "evidence": {
+        "counts": {
+          "train_fit": 16200,
+          "eval": 3590,
+          "pool": 3590,
+          "train_dev": 1800
+        },
+        "manifest_version": "b-v1-ca24f7ea87e8",
+        "images_checked": true
+      },
+      "gpu_status": "gpu_pending"
+    },
+    "evidence": {
+      "status": "cpu_checked",
+      "guide_version": "bca2de537a0f5080",
+      "targets": 6571
+    },
+    "r2": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "feedback": {
+      "status": "gpu_verified",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\logs",
+      "note": "GPU execution completed; does not imply efficacy"
+    },
+    "report": {
+      "status": "cpu_checked",
+      "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\return_bundle.zip"
+    }
+  },
+  "config_hash": "e25e0f6036c5f8cce93c631cfe4ab84f0b1dab2f54c4512ebc928b31b97fbc42",
+  "effective_config": {
+    "run_id": "followup_4080_v1",
+    "run_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1",
+    "inherit_run": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1",
+    "inherit_queries": false,
+    "cache_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\cache",
+    "manifest": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv",
+    "roles": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv",
+    "data_root": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw",
+    "descriptors": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\configs\\descriptors_crc.yaml",
+    "extra_manifest": null,
+    "seed": 0,
+    "model": {
+      "name": "Qwen/Qwen2-VL-2B-Instruct",
+      "revision": "main",
+      "load_in_4bit": false,
+      "gradient_checkpointing": true,
+      "train_visual": [],
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_length": 1024,
+      "min_pixels": 50176,
+      "max_pixels": 50176,
+      "generate_batch": 8
+    },
+    "grounding": {
+      "mode": "guided",
+      "minimum_descriptor_auc": 0.55,
+      "musk_weight": 0.15
+    },
+    "r2": {
+      "initial_checkpoint": "r2_parent",
+      "class_replay_fraction": 0.5
+    },
+    "train": {
+      "steps": 300,
+      "grad_accum": 8,
+      "lr": 2e-05,
+      "save_every": 100,
+      "eval_every": 100,
+      "dev_limit": null,
+      "sample_limit": null
+    },
+    "cache": {
+      "batch_size": 16,
+      "teachers": [
+        "conch",
+        "musk"
+      ],
+      "revisions": {
+        "conch": "main",
+        "musk": "main"
+      },
+      "hard_fraction": 0.25,
+      "threshold_candidates": [
+        0.0,
+        0.01,
+        0.02,
+        0.04,
+        0.06,
+        0.08,
+        0.1,
+        0.15
+      ],
+      "minimum_dev_precision": 0.8
+    },
+    "r3": {
+      "rounds": 2,
+      "candidates": 4,
+      "max_tiles": 1000,
+      "max_per_tile": 2,
+      "replay_fraction": 0.5
+    },
+    "feedback": {
+      "source": "simulated_dataset_label",
+      "nodes": [
+        50,
+        100,
+        200
+      ],
+      "replay_fraction": 0.5,
+      "class_replay_fraction": 0.5,
+      "train": {
+        "steps_per_label": 2,
+        "min_steps": 100,
+        "max_steps": 400,
+        "lr": 2e-05,
+        "grad_accum": 4,
+        "save_every": 50,
+        "eval_every": 100
+      }
+    },
+    "feedback_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\feedback_followup_v1"
+  },
+  "manifest_sha256": "ca24f7ea87e835e1aafa61287f9008a8ed01dd9040f4af80ece9f3682aa232c0",
+  "code_head": "dce6bf044ef33017400d736ba456bf14fa5061ed",
+  "code_hash": "58e5c896c12788a8961610626a3f392c8c7f5c7d99031b3e6b02b2b4890720a9",
+  "descriptor_sha256": "176fa1ab50a1195e7c0ca7c6a3bdd382bfeae13dc32af447ec6ee0b9be01740a",
+  "manifest_version": "b-v1-ca24f7ea87e8",
+  "inherited_from": {
+    "run_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1",
+    "code_head": "9e3a31d6e88f53c1939eb5b6fd48be9db66df0d3",
+    "selected_queries": 0,
+    "cache_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\cache"
+  },
+  "results": {
+    "r2_grounded": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\results\\by_model\\ca07b0c24e1a2e57adec",
+      "model_version": "step_0000100-565954366c0d"
+    },
+    "fb_0": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\results\\by_model\\8cfa33759813cecd441b",
+      "model_version": "step_0000100-565954366c0d"
+    },
+    "fb_50": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\results\\by_model\\254d742b0612328f536a",
+      "model_version": "step_0000100-adedac735126"
+    },
+    "fb_100": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\results\\by_model\\f3417fd96e9b325b1e5d",
+      "model_version": "step_0000200-145e0e179623"
+    },
+    "fb_200": {
+      "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1\\results\\by_model\\0fdd98447cad9b07a908",
+      "model_version": "step_0000200-a755eb3b2def"
+    }
+  }
+}

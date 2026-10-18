@@ -1,0 +1,55 @@
+{
+  "step": 20,
+  "contract": {
+    "stage": "fb_2_5f1df362f214",
+    "targets": "8cfd93269232c6db421215d34de7b601622ffdb218e79a210f83f88c14297de5",
+    "model": {
+      "name": "Qwen/Qwen2-VL-2B-Instruct",
+      "revision": "main",
+      "load_in_4bit": false,
+      "gradient_checkpointing": true,
+      "train_visual": [],
+      "lora_r": 16,
+      "lora_alpha": 32,
+      "max_length": 1024,
+      "min_pixels": 50176,
+      "max_pixels": 50176,
+      "generate_batch": 8
+    },
+    "train": {
+      "steps": 20,
+      "grad_accum": 4,
+      "lr": 2e-05,
+      "save_every": 10,
+      "eval_every": 20,
+      "dev_limit": 18,
+      "sample_limit": 54
+    },
+    "seed": 0,
+    "initial": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\checkpoints\\r2_grounded\\step_0000020",
+    "dev_ids": [
+      "train_ADI_0004",
+      "train_ADI_0009",
+      "train_BACK_0000",
+      "train_BACK_0006",
+      "train_DEB_0008",
+      "train_DEB_0050",
+      "train_LYM_0005",
+      "train_LYM_0011",
+      "train_MUC_0000",
+      "train_MUC_0001",
+      "train_MUS_0004",
+      "train_MUS_0016",
+      "train_NORM_0005",
+      "train_NORM_0014",
+      "train_STR_0004",
+      "train_STR_0008",
+      "train_TUM_0006",
+      "train_TUM_0012"
+    ]
+  },
+  "base_revision": "895c3a49bc3fa70a340399125c650a463535e71c",
+  "base_model": "Qwen/Qwen2-VL-2B-Instruct",
+  "visual_names": [],
+  "model_version": "step_0000020-c58bf678fdcc"
+}

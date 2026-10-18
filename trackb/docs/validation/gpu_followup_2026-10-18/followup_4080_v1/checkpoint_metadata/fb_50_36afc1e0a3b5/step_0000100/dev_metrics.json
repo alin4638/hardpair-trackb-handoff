@@ -1,0 +1,148 @@
+{
+  "n_eval": 1800,
+  "balanced_accuracy": 0.9055555555555554,
+  "recall": {
+    "ADI": 0.985,
+    "BACK": 1.0,
+    "DEB": 0.905,
+    "LYM": 0.975,
+    "MUC": 0.885,
+    "MUS": 0.785,
+    "NORM": 0.92,
+    "STR": 0.86,
+    "TUM": 0.835
+  },
+  "class_counts": {
+    "ADI": 200,
+    "BACK": 200,
+    "DEB": 200,
+    "LYM": 200,
+    "MUC": 200,
+    "MUS": 200,
+    "NORM": 200,
+    "STR": 200,
+    "TUM": 200
+  },
+  "pair_error_STR_MUS": 0.1075,
+  "pair_counts_STR_MUS": {
+    "errors": 43,
+    "denominator": 400
+  },
+  "pair_error_DEB_MUC": 0.0075,
+  "pair_counts_DEB_MUC": {
+    "errors": 3,
+    "denominator": 400
+  },
+  "pair_error_NORM_TUM": 0.075,
+  "pair_counts_NORM_TUM": {
+    "errors": 30,
+    "denominator": 400
+  },
+  "confusion_matrix": {
+    "ADI": {
+      "ADI": 197,
+      "BACK": 1,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 1,
+      "MUS": 1,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "BACK": {
+      "ADI": 0,
+      "BACK": 200,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "DEB": {
+      "ADI": 0,
+      "BACK": 4,
+      "DEB": 181,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 1,
+      "NORM": 1,
+      "STR": 3,
+      "TUM": 10
+    },
+    "LYM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 2,
+      "LYM": 195,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 3,
+      "STR": 0,
+      "TUM": 0
+    },
+    "MUC": {
+      "ADI": 4,
+      "BACK": 4,
+      "DEB": 3,
+      "LYM": 0,
+      "MUC": 177,
+      "MUS": 1,
+      "NORM": 7,
+      "STR": 1,
+      "TUM": 3
+    },
+    "MUS": {
+      "ADI": 1,
+      "BACK": 1,
+      "DEB": 7,
+      "LYM": 0,
+      "MUC": 2,
+      "MUS": 157,
+      "NORM": 0,
+      "STR": 29,
+      "TUM": 3
+    },
+    "NORM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 2,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 184,
+      "STR": 1,
+      "TUM": 13
+    },
+    "STR": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 5,
+      "LYM": 0,
+      "MUC": 4,
+      "MUS": 14,
+      "NORM": 1,
+      "STR": 172,
+      "TUM": 4
+    },
+    "TUM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 7,
+      "LYM": 3,
+      "MUC": 1,
+      "MUS": 1,
+      "NORM": 17,
+      "STR": 4,
+      "TUM": 167
+    }
+  },
+  "n_rationale": 0,
+  "format_rate": null,
+  "grounding_pass_rate": null,
+  "explanation_sources": {},
+  "retrieved_support_rate": null,
+  "student_grounding_rate": null
+}

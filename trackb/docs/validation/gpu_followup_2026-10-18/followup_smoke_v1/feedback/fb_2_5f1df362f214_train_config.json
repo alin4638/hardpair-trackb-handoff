@@ -1,0 +1,9 @@
+{
+  "steps": 20,
+  "grad_accum": 4,
+  "lr": 2e-05,
+  "save_every": 10,
+  "eval_every": 20,
+  "dev_limit": 18,
+  "sample_limit": 54
+}

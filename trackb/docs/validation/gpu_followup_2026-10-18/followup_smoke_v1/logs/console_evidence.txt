@@ -1,0 +1,24 @@
+﻿python.exe : INFO:root:Plan: {"stage": "evidence", "gpu_required": false, "run_dir": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1", "logs": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\logs", "resume": false, 
+"prerequisites": [{"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv", "exists": true}, 
+{"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.meta.json", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\cache\\identity.json", "exists": true}], 
+"cache_note": "Individual teacher image caches and resolved model access checked at execution", "gpu_status": 
+"gpu_pending"}
+At line:2 char:161
++ ... t=Get-Date; & .\.venv\Scripts\python.exe scripts/run_pipeline.py @($s ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO:root:Plan:... "gpu_pending"}:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO:root:Reading conch cached regional scores for 54 train_fit tiles
+INFO:root:Reading musk cached regional scores for 54 train_fit tiles
+INFO:root:Completed: {"status": "cpu_checked", "guide_version": "f49cbfb312df992b", "targets": 32}
+{
+  "status": "cpu_checked",
+  "guide_version": "f49cbfb312df992b",
+  "targets": 32
+}

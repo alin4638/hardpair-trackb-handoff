@@ -1,0 +1,155 @@
+{
+  "n_eval": 3590,
+  "balanced_accuracy": 0.864013609019758,
+  "recall": {
+    "ADI": 0.992526158445441,
+    "BACK": 0.9952830188679245,
+    "DEB": 0.9112426035502958,
+    "LYM": 0.943217665615142,
+    "MUC": 0.8994197292069632,
+    "MUS": 0.6790540540540541,
+    "NORM": 0.9029649595687331,
+    "STR": 0.6066350710900474,
+    "TUM": 0.8457792207792207
+  },
+  "class_counts": {
+    "ADI": 669,
+    "TUM": 616,
+    "MUC": 517,
+    "BACK": 424,
+    "NORM": 371,
+    "LYM": 317,
+    "MUS": 296,
+    "STR": 211,
+    "DEB": 169
+  },
+  "pair_error_STR_MUS": 0.26627218934911245,
+  "pair_counts_STR_MUS": {
+    "errors": 135,
+    "denominator": 507
+  },
+  "pair_error_DEB_MUC": 0.0,
+  "pair_counts_DEB_MUC": {
+    "errors": 0,
+    "denominator": 686
+  },
+  "pair_error_NORM_TUM": 0.0668693009118541,
+  "pair_counts_NORM_TUM": {
+    "errors": 66,
+    "denominator": 987
+  },
+  "confusion_matrix": {
+    "ADI": {
+      "ADI": 664,
+      "BACK": 3,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 1,
+      "MUS": 1,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "BACK": {
+      "ADI": 2,
+      "BACK": 422,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "DEB": {
+      "ADI": 0,
+      "BACK": 6,
+      "DEB": 154,
+      "LYM": 2,
+      "MUC": 0,
+      "MUS": 2,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 5
+    },
+    "LYM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 5,
+      "LYM": 299,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 10,
+      "STR": 2,
+      "TUM": 1
+    },
+    "MUC": {
+      "ADI": 20,
+      "BACK": 7,
+      "DEB": 0,
+      "LYM": 1,
+      "MUC": 465,
+      "MUS": 15,
+      "NORM": 2,
+      "STR": 7,
+      "TUM": 0
+    },
+    "MUS": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 4,
+      "LYM": 0,
+      "MUC": 9,
+      "MUS": 201,
+      "NORM": 1,
+      "STR": 74,
+      "TUM": 7
+    },
+    "NORM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 5,
+      "MUC": 5,
+      "MUS": 0,
+      "NORM": 335,
+      "STR": 1,
+      "TUM": 25
+    },
+    "STR": {
+      "ADI": 1,
+      "BACK": 0,
+      "DEB": 1,
+      "LYM": 0,
+      "MUC": 13,
+      "MUS": 61,
+      "NORM": 0,
+      "STR": 128,
+      "TUM": 7
+    },
+    "TUM": {
+      "ADI": 4,
+      "BACK": 1,
+      "DEB": 9,
+      "LYM": 2,
+      "MUC": 16,
+      "MUS": 8,
+      "NORM": 41,
+      "STR": 14,
+      "TUM": 521
+    }
+  },
+  "n_rationale": 3590,
+  "format_rate": 0.5782729805013928,
+  "grounding_pass_rate": 0.5782729805013928,
+  "explanation_sources": {
+    "insufficient_evidence": 1514,
+    "evidence_conditioned_student": 2076
+  },
+  "retrieved_support_rate": 0.5782729805013928,
+  "student_grounding_rate": 0.5782729805013928,
+  "run_id": "followup_4080_v1",
+  "stage": "fb_50",
+  "model_version": "step_0000100-adedac735126",
+  "manifest_version": "b-v1-ca24f7ea87e8"
+}

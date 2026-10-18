@@ -1,0 +1,7 @@
+{"stage": "evidence", "training_targets": 32, "unique_tiles": 32, "targets_sha256": "91d6861f93ceac82bf59e464de0657eb33a237ee6f32181325e2aca379b012b5", "guide_version": "f49cbfb312df992b", "input_tiles": 54}
+{"stage": "r2", "training_targets": 32, "unique_tiles": 32, "targets_sha256": "91d6861f93ceac82bf59e464de0657eb33a237ee6f32181325e2aca379b012b5", "input_tiles": 54, "accepted_targets": 32}
+{"stage": "r2_train_mix", "training_targets": 64, "unique_tiles": 48, "targets_sha256": "a0320f73439a9de3371d14e554b5b0b7c6fe780ada73edd59a00210b526fb9fb", "grounded_targets": 32, "class_replay_targets": 32, "class_replay_fraction": 0.5}
+{"stage": "r2", "training_targets": 32, "unique_tiles": 32, "targets_sha256": "91d6861f93ceac82bf59e464de0657eb33a237ee6f32181325e2aca379b012b5", "input_tiles": 54, "accepted_targets": 32}
+{"stage": "r2_train_mix", "training_targets": 64, "unique_tiles": 48, "targets_sha256": "a0320f73439a9de3371d14e554b5b0b7c6fe780ada73edd59a00210b526fb9fb", "grounded_targets": 32, "class_replay_targets": 32, "class_replay_fraction": 0.5}
+{"stage": "fb_2_5f1df362f214", "training_targets": 4, "unique_tiles": 4, "targets_sha256": "7140257d58cc0330799887de41ee28475ef9f2344ad11c3c974d3b1d1dc5e359", "n_feedback": 2}
+{"stage": "fb_4_912dddf894f9", "training_targets": 8, "unique_tiles": 8, "targets_sha256": "13af19d1472f617d939cd4385b8773be6c4818c032fa179f933fa10319766b55", "n_feedback": 4}

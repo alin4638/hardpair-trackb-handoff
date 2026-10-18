@@ -1,0 +1,94 @@
+{
+  "run_id": "followup_4080_v1",
+  "run_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_4080_v1",
+  "inherit_run": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1",
+  "inherit_queries": false,
+  "cache_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\cache",
+  "manifest": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv",
+  "roles": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv",
+  "data_root": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw",
+  "descriptors": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\configs\\descriptors_crc.yaml",
+  "extra_manifest": null,
+  "seed": 0,
+  "model": {
+    "name": "Qwen/Qwen2-VL-2B-Instruct",
+    "revision": "main",
+    "load_in_4bit": false,
+    "gradient_checkpointing": true,
+    "train_visual": [],
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "max_length": 1024,
+    "min_pixels": 50176,
+    "max_pixels": 50176,
+    "generate_batch": 8
+  },
+  "grounding": {
+    "mode": "guided",
+    "minimum_descriptor_auc": 0.55,
+    "musk_weight": 0.15
+  },
+  "r2": {
+    "initial_checkpoint": "r2_parent",
+    "class_replay_fraction": 0.5
+  },
+  "train": {
+    "steps": 300,
+    "grad_accum": 8,
+    "lr": 2e-05,
+    "save_every": 100,
+    "eval_every": 100,
+    "dev_limit": null,
+    "sample_limit": null
+  },
+  "cache": {
+    "batch_size": 16,
+    "teachers": [
+      "conch",
+      "musk"
+    ],
+    "revisions": {
+      "conch": "main",
+      "musk": "main"
+    },
+    "hard_fraction": 0.25,
+    "threshold_candidates": [
+      0.0,
+      0.01,
+      0.02,
+      0.04,
+      0.06,
+      0.08,
+      0.1,
+      0.15
+    ],
+    "minimum_dev_precision": 0.8
+  },
+  "r3": {
+    "rounds": 2,
+    "candidates": 4,
+    "max_tiles": 1000,
+    "max_per_tile": 2,
+    "replay_fraction": 0.5
+  },
+  "feedback": {
+    "source": "simulated_dataset_label",
+    "nodes": [
+      50,
+      100,
+      200
+    ],
+    "replay_fraction": 0.5,
+    "class_replay_fraction": 0.5,
+    "train": {
+      "steps_per_label": 2,
+      "min_steps": 100,
+      "max_steps": 400,
+      "lr": 2e-05,
+      "grad_accum": 4,
+      "save_every": 50,
+      "eval_every": 100
+    }
+  },
+  "feedback_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\feedback_followup_v1"
+}

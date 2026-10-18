@@ -1,0 +1,156 @@
+{
+  "n_eval": 54,
+  "balanced_accuracy": 0.7962962962962963,
+  "recall": {
+    "ADI": 1.0,
+    "BACK": 1.0,
+    "DEB": 1.0,
+    "LYM": 0.6666666666666666,
+    "MUC": 1.0,
+    "MUS": 0.16666666666666666,
+    "NORM": 0.6666666666666666,
+    "STR": 0.8333333333333334,
+    "TUM": 0.8333333333333334
+  },
+  "class_counts": {
+    "ADI": 6,
+    "BACK": 6,
+    "DEB": 6,
+    "LYM": 6,
+    "MUC": 6,
+    "MUS": 6,
+    "NORM": 6,
+    "STR": 6,
+    "TUM": 6
+  },
+  "pair_error_STR_MUS": 0.4166666666666667,
+  "pair_counts_STR_MUS": {
+    "errors": 5,
+    "denominator": 12
+  },
+  "pair_error_DEB_MUC": 0.0,
+  "pair_counts_DEB_MUC": {
+    "errors": 0,
+    "denominator": 12
+  },
+  "pair_error_NORM_TUM": 0.16666666666666666,
+  "pair_counts_NORM_TUM": {
+    "errors": 2,
+    "denominator": 12
+  },
+  "confusion_matrix": {
+    "ADI": {
+      "ADI": 6,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "BACK": {
+      "ADI": 0,
+      "BACK": 6,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "DEB": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 6,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "LYM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 2,
+      "LYM": 4,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "MUC": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 6,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "MUS": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 1,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 1,
+      "NORM": 0,
+      "STR": 4,
+      "TUM": 0
+    },
+    "NORM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 4,
+      "STR": 0,
+      "TUM": 2
+    },
+    "STR": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 1,
+      "NORM": 0,
+      "STR": 5,
+      "TUM": 0
+    },
+    "TUM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 1,
+      "TUM": 5
+    }
+  },
+  "n_rationale": 54,
+  "format_rate": 0.6111111111111112,
+  "grounding_pass_rate": 0.6111111111111112,
+  "explanation_sources": {
+    "insufficient_evidence": 21,
+    "retrieved_teacher_template": 2,
+    "evidence_conditioned_student": 31
+  },
+  "retrieved_support_rate": 0.6111111111111112,
+  "student_grounding_rate": 0.5740740740740741,
+  "run_id": "followup_smoke_v1",
+  "stage": "fb_4",
+  "model_version": "step_0000020-63e105ca941b",
+  "manifest_version": "b-v1-ca24f7ea87e8"
+}

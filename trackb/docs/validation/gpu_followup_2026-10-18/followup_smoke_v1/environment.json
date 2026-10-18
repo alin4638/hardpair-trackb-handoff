@@ -1,0 +1,26 @@
+{
+  "python": "3.12.13",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "torch": "2.8.0+cu128",
+    "torchvision": "0.23.0+cu128",
+    "transformers": "4.57.1",
+    "peft": "0.17.1",
+    "accelerate": "1.10.1",
+    "timm": "0.9.8",
+    "numpy": "2.5.2",
+    "pandas": "2.3.3",
+    "bitsandbytes": null
+  },
+  "data_root": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw",
+  "disk_free_gib": 207.62537384033203,
+  "cuda_available": true,
+  "cuda_runtime": "12.8",
+  "gpu_name": "NVIDIA GeForce RTX 4080 Laptop GPU",
+  "vram_gib": 11.99365234375,
+  "bf16": true,
+  "encoder_source_commits": {
+    "CONCH": "141cc09c7d4ff33d8eda562bd75169b457f71a62",
+    "MUSK": "714b666969c1911e5efe70d991140a21030f4ef3"
+  }
+}

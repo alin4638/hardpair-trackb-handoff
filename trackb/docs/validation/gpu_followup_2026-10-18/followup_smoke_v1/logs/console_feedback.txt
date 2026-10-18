@@ -1,0 +1,68 @@
+﻿python.exe : INFO:root:Plan: {"stage": "feedback", "gpu_required": true, "run_dir": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1", "logs": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\logs", "resume": true, 
+"prerequisites": [{"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv", "exists": true}, 
+{"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.meta.json", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw", "exists": true}, {"path": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\threshold.json", "exists": true}, 
+{"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\targets\\r2.jsonl", "exists": 
+true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\region_guide.json", 
+"exists": true}], "cache_note": "Individual teacher image caches and resolved model access checked at execution", 
+"gpu_status": "gpu_pending"}
+At line:1 char:650
++ ... t=Get-Date; & .\.venv\Scripts\python.exe scripts/run_pipeline.py --st ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO:root:Plan:... "gpu_pending"}:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.62s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.32it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.13it/s]
+The image processor of type `Qwen2VLImageProcessor` is now loaded as a fast processor by default, even if the model 
+checkpoint was saved with a slow processor. This is a breaking change and may produce slightly different outputs. To 
+continue using the slow processor, instantiate this class with `use_fast=False`. Note that this behavior will be 
+extended to all models in a future release.
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set 
+`TRANSFORMERS_VERBOSITY=info` for more details.
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.59s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.34it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.15it/s]
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.57s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.37it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.17it/s]
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.68s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.27it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.09it/s]
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.51s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.40it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.20it/s]
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.56s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.36it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.16it/s]
+
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.54s/it]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.38it/s]
+Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.18it/s]
+INFO:root:Completed: {"status": "gpu_verified", "evidence": 
+"C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\logs", "note": "GPU execution 
+completed; does not imply efficacy"}
+{
+  "status": "gpu_verified",
+  "evidence": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\followup_smoke_v1\\logs",
+  "note": "GPU execution completed; does not imply efficacy"
+}
