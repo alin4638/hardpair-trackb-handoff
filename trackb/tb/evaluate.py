@@ -11,7 +11,7 @@ def metrics(rows,preds,rationales=None):
     if not preds.tile_id.is_unique or set(rows.tile_id)!=set(preds.tile_id): raise ValueError('Evaluation IDs must match exactly')
     joined=rows[['tile_id','label']].merge(preds,on='tile_id',validate='one_to_one')
     recalls={c:float((joined.loc[joined.label==c,'pred']==c).mean()) if (joined.label==c).any() else None for c in CLASSES}
-    result={'n_eval':len(joined),'balanced_accuracy':float(np.mean(list(recalls.values()))) if all(x is not None for x in recalls.values()) else None,
+    result={'n_eval':len(joined),'accuracy':float(joined.label.eq(joined.pred).mean()),'balanced_accuracy':float(np.mean(list(recalls.values()))) if all(x is not None for x in recalls.values()) else None,
             'recall':recalls,'class_counts':joined.label.value_counts().to_dict()}
     for a,b in PAIRS:
         n=int(joined.label.isin([a,b]).sum()); errors=int(((joined.label.eq(a)&joined.pred.eq(b))|(joined.label.eq(b)&joined.pred.eq(a))).sum())

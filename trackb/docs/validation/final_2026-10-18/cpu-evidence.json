@@ -1,0 +1,181 @@
+{
+  "executed_at": "2026-10-19T02:47:42.348369+00:00",
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "python": "3.11.15",
+  "gpu_execution": false,
+  "commands": [
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests",
+        "--junitxml=/private/tmp/trackb-final-dev/trackb/docs/validation/final_2026-10-18/cpu-tests.xml"
+      ],
+      "exit_code": 0,
+      "stdout": ".........................                                                [100%]\n- generated xml file: /private/tmp/trackb-final-dev/trackb/docs/validation/final_2026-10-18/cpu-tests.xml -\n25 passed in 7.65s\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "tb",
+        "scripts",
+        "app.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout": "usage: run_pipeline.py [-h] --stage\n                       {prepare,cache,probe,evidence,explain,zeroshot,r1,r2,r3,feedback,report}\n                       [--config CONFIG] [--dry-run] [--r3-from {r2,feedback}]\n                       [--stop-after STOP_AFTER] [--resume]\n                       [--cache-kind {features,regions}] [--skip-images]\n\nTrack B pipeline. Run from trackb; paths in YAML are relative to trackb.\n\noptions:\n  -h, --help            show this help message and exit\n  --stage {prepare,cache,probe,evidence,explain,zeroshot,r1,r2,r3,feedback,report}\n  --config CONFIG\n  --dry-run             Validate config and list prerequisite status; never\n                        load models or write artifacts\n  --r3-from {r2,feedback}\n                        Start a new R3 cycle from R2 or the actual feedback\n                        checkpoint\n  --stop-after STOP_AFTER\n                        Stop cleanly after this optimizer step; unchanged\n                        config can resume\n  --resume              Resume latest complete optimizer boundary; stage\n                        config must match\n  --cache-kind {features,regions}\n  --skip-images         prepare only: freeze/check contracts without local\n                        images; GPU data check remains pending\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "prepare",
+        "--config",
+        "/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_2oolb4vl/cpu.json",
+        "--skip-images"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"status\": \"cpu_checked\",\n  \"evidence\": {\n    \"counts\": {\n      \"train_fit\": 16200,\n      \"eval\": 3590,\n      \"pool\": 3590,\n      \"train_dev\": 1800\n    },\n    \"manifest_version\": \"b-v1-ca24f7ea87e8\",\n    \"images_checked\": false\n  },\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": "INFO:root:Plan: {\"stage\": \"prepare\", \"gpu_required\": false, \"run_dir\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_2oolb4vl/run\", \"logs\": \"/var/folders/y6/2n0v_1tx2lb4xvy496v_nxrr0000gn/T/trackb_cpu_2oolb4vl/run/logs\", \"resume\": false, \"prerequisites\": [{\"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.csv\", \"exists\": true}, {\"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.meta.json\", \"exists\": true}], \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\", \"gpu_status\": \"gpu_pending\"}\nfatal: not a git repository (or any of the parent directories): .git\nINFO:root:Completed: {\"status\": \"cpu_checked\", \"evidence\": {\"counts\": {\"train_fit\": 16200, \"eval\": 3590, \"pool\": 3590, \"train_dev\": 1800}, \"manifest_version\": \"b-v1-ca24f7ea87e8\", \"images_checked\": false}, \"gpu_status\": \"gpu_pending\"}\n"
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "prepare",
+        "--config",
+        "/private/tmp/trackb-final-dev/trackb/configs/final_4080.yaml",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"prepare\",\n  \"gpu_required\": false,\n  \"run_dir\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1\",\n  \"logs\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/outputs/followup_4080_v1/run_manifest.json\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "cache",
+        "--config",
+        "/private/tmp/trackb-final-dev/trackb/configs/final_4080.yaml",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"cache\",\n  \"gpu_required\": true,\n  \"run_dir\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1\",\n  \"logs\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/raw\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "probe",
+        "--config",
+        "/private/tmp/trackb-final-dev/trackb/configs/final_4080.yaml",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"probe\",\n  \"gpu_required\": false,\n  \"run_dir\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1\",\n  \"logs\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/raw\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/outputs/laptop_4080_v1/cache/identity.json\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/feedback_final_v1/feedback_records.jsonl\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "feedback",
+        "--config",
+        "/private/tmp/trackb-final-dev/trackb/configs/final_4080.yaml",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"feedback\",\n  \"gpu_required\": false,\n  \"run_dir\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1\",\n  \"logs\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/raw\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/outputs/laptop_4080_v1/cache/identity.json\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/feedback_final_v1/feedback_records.jsonl\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/region_guide.json\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/checkpoints/MISSING_SELECTED_CHECKPOINT_RUN_PREPARE\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "explain",
+        "--config",
+        "/private/tmp/trackb-final-dev/trackb/configs/final_4080.yaml",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"explain\",\n  \"gpu_required\": true,\n  \"run_dir\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1\",\n  \"logs\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/roles.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/raw\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/classifiers/MISSING_RUN_PROBE_FIRST\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/region_guide.json\",\n      \"exists\": false\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/checkpoints/MISSING_SELECTED_CHECKPOINT_RUN_PREPARE\",\n      \"exists\": false\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/trackb-cpu-check/bin/python",
+        "scripts/run_pipeline.py",
+        "--stage",
+        "report",
+        "--config",
+        "/private/tmp/trackb-final-dev/trackb/configs/final_4080.yaml",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"stage\": \"report\",\n  \"gpu_required\": false,\n  \"run_dir\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1\",\n  \"logs\": \"/private/tmp/trackb-final-dev/trackb/outputs/final_4080_v1/logs\",\n  \"resume\": false,\n  \"prerequisites\": [\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.csv\",\n      \"exists\": true\n    },\n    {\n      \"path\": \"/private/tmp/trackb-final-dev/trackb/data/manifest.meta.json\",\n      \"exists\": true\n    }\n  ],\n  \"cache_note\": \"Individual teacher image caches and resolved model access checked at execution\",\n  \"gpu_status\": \"gpu_pending\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "source_hashes": {
+    "app.py": "f80ca296d554afcaf03555e052357e289d9550a0e3801e31458eb5037f9a6af9",
+    "configs/final_4080.yaml": "7ec4c5eeb0b0e1c5f6a6d41f6b4a551fe4a28c3939b7e29d29336e0fdb13d594",
+    "tb/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tb/build_sft.py": "90f3d5f52cf5226bb66fc3269aec648eaab9c6e401d1c45d11b13a748bfca766",
+    "tb/cache.py": "5a08a4efc0084784b3d9977c8c3be1a4bb82b852c13c45c8c9fd9386872c6c6c",
+    "tb/common.py": "50e9ec2e557b6c21131550080663cc501ad6636386348092bb7be51dd68a4a9f",
+    "tb/continuation.py": "d6a2206b7ba767ea7c2306c1294285646b45b2205e94005b0417f6adec5c0e14",
+    "tb/crops.py": "fb1e83a8b74b1260c5773d85c801f2bcc657f05aa62ebb63f2f97b2c1bf0954a",
+    "tb/data.py": "522fdb69cdcf4d464bd5106990ecfa585bc1703e7b6d929a6f14e659bd95b391",
+    "tb/encoders.py": "bcf3d5d437263530d66226397438b17af4b1bd2b81c59317c2ddc864c7eb0d07",
+    "tb/evaluate.py": "05d82db773bb8b5d245926a867a1a6fd31d0be8753fd39f4c1169e81cb620f4f",
+    "tb/feedback.py": "e665eb60e76bcdeab77663a165ecc09c9a066a97a85da99c37a28c824e97e1b6",
+    "tb/grounding.py": "d63e1efc6672381b4a44c2b0a7584fcf19a468cbbdac304e7cce7991b374127c",
+    "tb/hard.py": "d8bb020ea1972c6ada81eb3092f69b62ad3c91849a0abc273097e5b09d1a2565",
+    "tb/model.py": "490bece6210f330359a0979b5c9dce6671aac8776795f3b5cbe276a48bd88dfb",
+    "tb/pipeline.py": "0b8d34fd977be099c4278d2abeece581bbafb82bb21eccf9204b61893cac8281",
+    "tb/probe.py": "742ce2149d3060a1cec14242c0fed3b47134cc982405d29e76e2f89b62741fd2",
+    "tb/probe_pipeline.py": "71a98903d4203010506dac0527a0bb0755332bb9e8b8567cb3925d62097c2482",
+    "tb/region_guide.py": "67a57cfbae6a3ec3bda300c5f0853a4c53ac830e30ded072cf9c550a6445ed3f",
+    "tb/scoring.py": "14ffe50165e2493c3d4ad3d9372a766096df21cf37d7f555c26e615d399ad0ec",
+    "tb/train_lora.py": "5ee64e1d724a5257b61d160786bac9f1afea2743fc7e959d4850c84def80a6cb",
+    "scripts/check_data.py": "0a0d128ee001c8e91afce0a269abe8dbe17994a069d8ba0ee1ffb3bbebe351eb",
+    "scripts/diagnose.py": "fc03fa0df58bf7142615277e251a61a7a61645c1999ef51783ce1392f52609cc",
+    "scripts/download_data.py": "d0d350f1646c8566dbaf739be81ff4d58e4c77da89a3cb2600540ce3099e6487",
+    "scripts/make_handoff.py": "432470768eaa306b06fc6726d47bc889c6c7c3d69dfbf47e6ed0a85e747fd549",
+    "scripts/register_extra.py": "14c0cda496f5c20ec3d21c9d3be338c1841d279844fd969aed56010918c918fa",
+    "scripts/run_pipeline.py": "c2d68f53b7f40eab75f0a5617d171df46f4194b53b41cdb5998ebbb120b6bd61",
+    "scripts/smoke_encoders.py": "2fe6d14e673b1de6a3d059dad7f6e498aef78503c21e488f30bea38a245d7c7e",
+    "scripts/smoke_vlm.py": "e288a83e748d325809e7e3186bbebb63d5e640240ffc60a055fc01e4785023fc",
+    "scripts/validate_cpu.py": "f9b888f0971cd02a9de8534fa520b6d0215ae6b475cbcff4c75c696506003102",
+    "tests/conftest.py": "69a53b2cec0798614f29d4a59734838b11dffdac7ef2750c6c78166ca64c9492",
+    "tests/test_contracts.py": "92b47344436dc87c20ab8a7f4997114c7afa2139676b0ab03ff47862bfef1a0b",
+    "tests/test_final_probe.py": "8848575fd4f52e7280df23b66e5403dd128a88bcdf2087950b1f5e487d9e8ac9",
+    "tests/test_followup.py": "e04fb595505b3a7d13f1397ffc5f07853e9891eaf3d174f8c80da8e9a9d50072",
+    "tests/test_pipeline_flow.py": "351ce287d350baccd7c76d3ef462553f8acb81c8d3b6d97fff83ebf386c69337",
+    "tests/test_training_resume.py": "f4d07cf59de32216c80e14fa0303f0a95f4e7bb15e598a471e143ba1998a4f7c"
+  }
+}

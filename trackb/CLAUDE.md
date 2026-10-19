@@ -32,3 +32,12 @@ MHIST HP/SSA labels are not the nine CRC tissue classes and must not be remapped
 Regional explanations expose evidence_conditioned_student, retrieved_teacher_template or
 insufficient_evidence provenance; report raw student acceptance separately from fallback.
 See docs/FOLLOWUP_GPU.md for the current GPU execution handoff.
+
+Final experiment (user-authorized 2026-10-18): use configs/final_4080.yaml and docs/FINAL_GPU.md.
+Reuse the completed 200-label feedback, Qwen checkpoint, region guide and caches. Add a B-owned
+CONCH+MUSK whole-tile classifier with CPU updates; query to cumulative 300/400 labels using
+MUS/STR focus, encoder disagreement and feature diversity. Keep the frozen roles unchanged.
+In final probe mode, category corrections train the classifier on train_fit plus all current pool
+labels; Qwen and its valid R2 training artifacts remain inherited rather than being retrained.
+Report classifier and explanation model identities separately. No new R1/R2/R3 runs, ablations,
+external datasets, parameter sweeps or extra GPU smoke runs. Necessary CPU functional checks only.

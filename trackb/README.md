@@ -1,5 +1,9 @@
 # Track B — independent pathology VLM training and feedback
 
+**Final experiment:** after the completed 200-label GPU follow-up, use
+[FINAL_GPU.md](docs/FINAL_GPU.md) and `configs/final_4080.yaml`. This adds pathology-feature
+classification and fast cumulative feedback while reusing the existing Qwen explanations.
+
 Implementation lives entirely in `trackb/`. Read [AGENTS.md](AGENTS.md),
 [scope](docs/TRACK_B.md), [phases](docs/TRACK_B_PHASES.md) and
 [delivery status](docs/IMPLEMENTATION_STATUS.md).
@@ -18,7 +22,7 @@ python scripts/run_pipeline.py --stage prepare --config configs/laptop_4080.yaml
 ```
 
 Stages: `prepare`, `cache` (features or regions), `evidence` (CPU calibration from cached scores),
-`explain` (guided inference), `zeroshot`, `r1`, `r2`, `r3`,
+`probe` (CPU pathology classifier), `explain` (guided inference), `zeroshot`, `r1`, `r2`, `r3`,
 `feedback`, `report`. Formal and smoke runs have separate configurations, targets,
 checkpoints, results and feedback histories. `--resume` validates run/target identity.
 

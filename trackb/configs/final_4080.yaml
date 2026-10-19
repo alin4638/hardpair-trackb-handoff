@@ -1,0 +1,62 @@
+# Final run: CPU classification/feedback; reuse Qwen for final explanations.
+run_id: final_4080_v1
+run_dir: outputs/final_4080_v1
+inherit_run: outputs/followup_4080_v1
+inherit_feedback_dir: data/feedback_followup_v1
+inherit_feedback: true
+inherit_queries: true
+cache_dir: outputs/laptop_4080_v1/cache
+manifest: data/manifest.csv
+roles: data/roles.csv
+data_root: data/raw
+descriptors: configs/descriptors_crc.yaml
+extra_manifest: null
+seed: 0
+model:
+  name: Qwen/Qwen2-VL-2B-Instruct
+  revision: main
+  load_in_4bit: false
+  gradient_checkpointing: true
+  train_visual: []
+  lora_r: 16
+  lora_alpha: 32
+  max_length: 1024
+  min_pixels: 50176
+  max_pixels: 50176
+  generate_batch: 8
+grounding:
+  mode: guided
+  minimum_descriptor_auc: 0.55
+  musk_weight: 0.15
+train:
+  steps: 1
+  grad_accum: 1
+  sample_limit: null
+  dev_limit: null
+cache:
+  batch_size: 16
+  teachers:
+  - conch
+  - musk
+  revisions:
+    conch: main
+    musk: main
+r3:
+  candidates: 4
+feedback:
+  source: simulated_dataset_label
+  nodes:
+  - 300
+  - 400
+feedback_dir: data/feedback_final_v1
+classification_backend: pathology_probe
+probe:
+  C: 0.01
+  feedback_weight: 20.0
+  max_iter: 3000
+  tol: 0.0001
+  cpu_threads: 4
+  hard_pair_query_fraction: 0.5
+  diversity_weight: 0.25
+  minimum_inherited_feedback: 200
+  explanation_checkpoint: feedback

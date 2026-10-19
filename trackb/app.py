@@ -23,10 +23,14 @@ queued=[k for k,v in active.items() if trained.get(k)!=v]
 st.metric('等待类别反馈',len({q['tile_id'] for q in queries}-set(active)))
 st.metric('已提交、等待训练更新',len(queued))
 st.write('实际反馈模型版本',fb.get('current',{}).get('model_version','尚未运行反馈阶段'))
+probe_mode=c.get('classification_backend')=='pathology_probe'
+if probe_mode:
+    st.caption('分类：CONCH + MUSK 整图特征分类器；解释：复用已有 Qwen，不重新训练视觉语言模型。')
+    st.write('解释模型版本',state.get('checkpoints',{}).get(c['probe']['explanation_checkpoint'],{}).get('model_version'))
 st.caption(f"自动反馈来源：{c['feedback']['source']}。数据库真标签属于模拟反馈，人工复核提交属于专家反馈。")
 running=(root/'pipeline.lock').exists()
-ready=bool(state.get('checkpoints')) and (c.get('grounding',{}).get('mode')!='guided' or (root/'region_guide.json').exists())
-if not ready: st.info('先在 GPU 机器完成 prepare 和 evidence，再执行反馈更新。')
+ready=bool(state.get('classifier')) if probe_mode else bool(state.get('checkpoints')) and (c.get('grounding',{}).get('mode')!='guided' or (root/'region_guide.json').exists())
+if not ready: st.info('先完成 prepare、特征缓存和 probe。' if probe_mode else '先在 GPU 机器完成 prepare 和 evidence，再执行反馈更新。')
 if st.button('执行反馈更新 / 继续队列',disabled=running or not ready):
     logs=root/'logs';logs.mkdir(parents=True,exist_ok=True)
     output=logs/f"app_feedback_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
@@ -41,11 +45,18 @@ tab_result,tab_feedback=st.tabs(['模型结果与区域','类别反馈'])
 with tab_result:
     if not versions:st.info('运行 zeroshot/r1/r2/r3 后，这里显示真实结果。')
     else:
-        stage=st.selectbox('结果阶段',list(versions));entry=versions[stage];st.code(entry['model_version'])
+        stage=st.selectbox('结果阶段',list(versions),index=len(versions)-1);entry=versions[stage];st.code(entry['model_version'])
+        st.caption('分类来源：'+entry.get('classification_backend','qwen'))
         folder=Path(entry['path']);preds=pd.read_csv(folder/f'preds_vlm_{stage}.csv')
         tid=st.selectbox('图块',preds.tile_id.tolist());row=m.set_index('tile_id').loc[tid];pr=preds.set_index('tile_id').loc[tid]
         st.write({'prediction':pr['pred'],'rival':pr['top2'],'margin':float(pr['margin'])})
         rr=next((r for r in read_jsonl(folder/f'vlm_rationales_{stage}.jsonl') if r['tile_id']==tid),None)
+        if rr is None and probe_mode and Path(row.local_path).exists() and (root/'region_guide.json').exists():
+            from types import SimpleNamespace
+            from tb.cache import Cache
+            from tb.region_guide import RegionGuide
+            rr=RegionGuide.load(Cache(c,m)).explanation(SimpleNamespace(tile_id=tid,**row.to_dict()),pr['pred'],pr['top2'])
+            st.caption('本版本尚未生成 Qwen 说明，当前展示即时检索的教师证据。')
         if Path(row.local_path).exists():
             with Image.open(row.local_path) as im:im=im.convert('RGB').resize((224,224))
             draw=ImageDraw.Draw(im)
@@ -73,12 +84,18 @@ with tab_feedback:
                 from tb.cache import Cache
                 from tb.region_guide import RegionGuide
                 tile=SimpleNamespace(tile_id=tid,**row.to_dict());cache=Cache(c,m);guide=RegionGuide.load(cache)
-                rival=query.get('top2')
+                prediction=query['original_prediction'];rival=query.get('top2')
+                if probe_mode and state.get('classifier'):
+                    from tb.probe import PathologyProbe,TEACHERS
+                    latest=PathologyProbe.load(state['classifier']['path'])
+                    current_pred=latest.predict([tid],{t:cache.read(t,tile,'features')[None,:] for t in TEACHERS}).iloc[0]
+                    prediction=current_pred['pred'];rival=current_pred['top2']
+                    st.write({'current_classifier':latest.version,'current_prediction':prediction,'current_rival':rival})
                 if not rival:
                     z=guide.normalized('conch',cache.read('conch',tile,'regions'))
-                    rival=max((cl for cl in CLASSES if cl!=query['original_prediction']),
+                    rival=max((cl for cl in CLASSES if cl!=prediction),
                         key=lambda cl:float(z[:,[i for i,d in enumerate(cache.descriptors) if d['label']==cl]].max()))
-                explanation=guide.explanation(tile,query['original_prediction'],rival)
+                explanation=guide.explanation(tile,prediction,rival)
                 for region in regions():
                     if region['region_id'] in explanation['cited_regions']:
                         ImageDraw.Draw(image).rectangle(region['box'],outline='red',width=3)

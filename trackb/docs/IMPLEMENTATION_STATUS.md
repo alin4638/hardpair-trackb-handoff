@@ -1,5 +1,10 @@
 # Track B 代码交付状态
 
+**最后一轮代码交付：** `configs/final_4080.yaml` 继承已完成的 200 条反馈、Qwen、区域证据
+与教师缓存，新增整图分类器、CPU 累计更新至 300/400 条、MUS/STR 与分歧/多样性查询，
+并复用可匹配的旧解释。代码为 `code_ready`，必要 CPU 检查位于 `validation/final_2026-10-18/`；
+新增实际模型指标与 GPU 编码/生成为 `gpu_pending`。执行入口见 [FINAL_GPU.md](FINAL_GPU.md)。
+
 **2026-10-18 后续交付：** 针对组员回传的区域解释弱、反馈停在查询阶段，新增
 缓存证据校准与条件解释、R2 增量训练、隔离 pool 真标签的累计反馈更新及演示操作入口。
 新代码为 `code_ready`，CPU 检查见 `validation/followup_2026-10-18/`；新 GPU 阶段为

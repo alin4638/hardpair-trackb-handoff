@@ -16,7 +16,7 @@ from .grounding import calibrate,generation_prompt,validate
 from .evaluate import score_rows,metrics,upsert_csv
 from .feedback import current,submit,select,validate_records
 
-STAGES=['prepare','cache','evidence','explain','zeroshot','r1','r2','r3','feedback','report']
+STAGES=['prepare','cache','probe','evidence','explain','zeroshot','r1','r2','r3','feedback','report']
 
 def feedback_config(c,n):
     result=deepcopy(c)
@@ -115,6 +115,8 @@ def stage_eval(c,m,state,stage,cp=None,grounded=False,cache=None,threshold=0):
     return report
 
 def run(c,args):
+    if c.get('classification_backend')=='pathology_probe' and (args.stage not in ('prepare','cache','probe','feedback','explain','report') or (args.stage=='cache' and args.cache_kind!='features')):
+        raise ValueError('Final probe run uses prepare -> cache features -> probe -> feedback -> explain -> report')
     root=Path(c['run_dir']);root.mkdir(parents=True,exist_ok=True)
     state=read_json(root/'run_manifest.json',{'run_id':c['run_id'],'checkpoints':{},'stages':{}})
     config_hash=digest(c)
@@ -137,6 +139,12 @@ def run(c,args):
         state['stages'][stage]={'status':'cpu_checked','evidence':evidence,'gpu_status':'gpu_pending'}
         save_state(c,state);return state['stages'][stage]
     if stage=='report': return report(c,state)
+    if c.get('classification_backend')=='pathology_probe' and stage in ('probe','feedback','explain'):
+        from .probe_pipeline import run_probe,explain_probe
+        m=load_manifest(True,c);cache=Cache(c,m)
+        result=explain_probe(c,m,cache,state) if stage=='explain' else run_probe(c,m,cache,state,advance=stage=='feedback')
+        state['stages'][stage]=result;save_state(c,state);return result
+    if stage=='probe':raise ValueError('probe requires classification_backend: pathology_probe')
     if stage=='evidence':
         from .region_guide import fit_guide
         m=load_manifest(True,c);cache=Cache(c,m);fit=fit_rows(m,c)
@@ -159,9 +167,12 @@ def run(c,args):
         guide=RegionGuide.load(cache)
     if stage=='cache':
         if args.cache_kind=='features':
-            base=fit[fit.role=='train_fit'];cache.build(base,'features')
-            from .hard import mine
-            hard=mine(base,cache.features(base),c['cache']['hard_fraction']);hard.to_csv(root/'hard_train.csv',index=False)
+            if c.get('classification_backend')=='pathology_probe':
+                cache.build(m,'features')  # prior train_fit embeddings are reused; only missing IDs are encoded
+            else:
+                base=fit[fit.role=='train_fit'];cache.build(base,'features')
+                from .hard import mine
+                hard=mine(base,cache.features(base),c['cache']['hard_fraction']);hard.to_csv(root/'hard_train.csv',index=False)
         else:
             # Full dev and evaluation images are inference-only; no label enters encoder inputs.
             rows=pd.concat([fit,dev,m[m.role.isin(['pool','eval'])]])
@@ -339,11 +350,16 @@ def report(c,state):
     root=Path(c['run_dir']);dest=root/'return_bundle';dest.mkdir(exist_ok=True)
     for name in ('environment.json','effective_config.json','run_manifest.json','target_build_log.jsonl','threshold.json','region_guide.json','inheritance.json','model_revision.json','packages.txt','nvidia-smi.txt'):
         if (root/name).exists(): shutil.copy2(root/name,dest/name)
-    for name in ('logs','results','examples'):
+    for name in ('logs','results','examples','history'):
         if (root/name).exists(): shutil.copytree(root/name,dest/name,dirs_exist_ok=True)
     if Path(c['feedback_dir']).exists(): shutil.copytree(c['feedback_dir'],dest/'feedback',dirs_exist_ok=True)
     ids={key:{**v,'checkpoint':read_json(Path(v['path'])/'checkpoint.json')} for key,v in state['checkpoints'].items()}
     atomic_json(dest/'checkpoint_identifiers.json',ids)
+    if state.get('classifier'):
+        atomic_json(dest/'classifier_identifier.json',state['classifier'])
+        for name in ('classifier.json','dev_metrics.json'):
+            source=Path(state['classifier']['path'])/name
+            if source.exists():shutil.copy2(source,dest/name)
     summary=root/'results/vlm_summary.csv'
     if summary.exists():
         import matplotlib
