@@ -1,0 +1,71 @@
+{
+ "metrics": {
+  "Awaiting class feedback": "0",
+  "Submitted, awaiting training update": "0"
+ },
+ "captions": [
+  "Research demo; model versions and results come from actual saved files. Regional evidence is automatic teacher supervision.",
+  "Classification: CONCH + MUSK whole-tile feature classifier; explanations: reuse the existing Qwen, no new VLM training.",
+  "Automatic feedback source: simulated_dataset_label. Dataset ground-truth labels count as simulated feedback; human review submissions count as expert feedback.",
+  "Classification source: pathology_probe"
+ ],
+ "buttons_disabled": {
+  "Run feedback update / continue queue": false,
+  "Refresh status": false,
+  "Submit class feedback": false,
+  "Import CSV": true
+ },
+ "result_stages": [
+  "probe_fb_200",
+  "probe_fb_300",
+  "probe_fb_400"
+ ],
+ "default_stage": "probe_fb_400",
+ "model_version_shown": "probe-5cd3fe0b76e91b1e",
+ "result_tiles": [
+  {
+   "tile_id": "7k_ADI_0000",
+   "explanation_source": "evidence_conditioned_student",
+   "reused": false,
+   "classifier_version": "probe-5cd3fe0b76e91b1e",
+   "explanation_model_version": "step_0000200-a755eb3b2def",
+   "shown_text_matches_file": true
+  },
+  {
+   "tile_id": "7k_ADI_0003",
+   "explanation_source": "insufficient_evidence",
+   "reused": false,
+   "classifier_version": "probe-5cd3fe0b76e91b1e",
+   "explanation_model_version": "step_0000200-a755eb3b2def",
+   "shown_text_matches_file": true
+  },
+  {
+   "tile_id": "7k_ADI_0056",
+   "explanation_source": "evidence_conditioned_student",
+   "reused": true,
+   "classifier_version": "probe-5cd3fe0b76e91b1e",
+   "explanation_model_version": "step_0000200-a755eb3b2def",
+   "shown_text_matches_file": true
+  },
+  {
+   "tile_id": "7k_ADI_0072",
+   "explanation_source": "insufficient_evidence",
+   "reused": true,
+   "classifier_version": "probe-5cd3fe0b76e91b1e",
+   "explanation_model_version": "step_0000200-a755eb3b2def",
+   "shown_text_matches_file": true
+  }
+ ],
+ "header_markdown": [
+  "Current feedback model version probe-5cd3fe0b76e91b1e",
+  "Explanation model version step_0000200-a755eb3b2def"
+ ],
+ "feedback_tab": {
+  "n_queried": 400,
+  "tile_id": "7k_STR_0114",
+  "versions_shown": [
+   "{\"query_model_version\": \"probe-83ca1a589ff4c807\", \"original_prediction\": \"STR\"}",
+   "{\"current_classifier\": \"probe-5cd3fe0b76e91b1e\", \"current_prediction\": \"STR\", \"current_rival\": \"MUS\"}"
+  ]
+ }
+}

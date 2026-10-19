@@ -1,0 +1,4 @@
+run_id,stage,model_version,n_eval,balanced_accuracy,pair_error_STR_MUS,pair_error_DEB_MUC,pair_error_NORM_TUM,n_feedback,n_changed,feedback_source,n_source_feedback,classification_backend
+final_4080_v1,probe_fb_200,probe-6c0f7c7191f5ae7d,3590,0.9795798684789137,0.0552268244575936,0.0,0.0253292806484295,200,111,simulated_dataset_label,200,pathology_probe
+final_4080_v1,probe_fb_300,probe-83ca1a589ff4c807,3590,0.9925643786574416,0.0138067061143984,0.0,0.0070921985815602,300,142,simulated_dataset_label,300,pathology_probe
+final_4080_v1,probe_fb_400,probe-5cd3fe0b76e91b1e,3590,0.9934517219618466,0.011834319526627219,0.0,0.005065856129685917,400,145,simulated_dataset_label,400,pathology_probe

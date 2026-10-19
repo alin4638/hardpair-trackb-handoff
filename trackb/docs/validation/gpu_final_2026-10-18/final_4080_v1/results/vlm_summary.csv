@@ -1,0 +1,4 @@
+run_id,stage,model_version,manifest_version,classification_backend,n_feedback,n_eval,accuracy,balanced_accuracy,pair_error_STR_MUS,pair_error_DEB_MUC,pair_error_NORM_TUM,format_rate,grounding_pass_rate,n_rationale,retrieved_support_rate,student_grounding_rate
+final_4080_v1,probe_fb_200,probe-6c0f7c7191f5ae7d,b-v1-ca24f7ea87e8,pathology_probe,200,3590,0.9832869080779943,0.9795798684789137,0.0552268244575936,0.0,0.0253292806484295,,,0,,
+final_4080_v1,probe_fb_300,probe-83ca1a589ff4c807,b-v1-ca24f7ea87e8,pathology_probe,300,3590,0.9944289693593314,0.9925643786574416,0.0138067061143984,0.0,0.0070921985815602,,,0,,
+final_4080_v1,probe_fb_400,probe-5cd3fe0b76e91b1e,b-v1-ca24f7ea87e8,pathology_probe,400,3590,0.9952646239554318,0.9934517219618466,0.011834319526627219,0.0,0.005065856129685917,0.5456824512534819,0.5456824512534819,3590,0.5456824512534819,0.5456824512534819

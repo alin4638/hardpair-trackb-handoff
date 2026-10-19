@@ -1,0 +1,10 @@
+INFO:root:Plan: {"stage": "feedback", "gpu_required": false, "run_dir": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\final_4080_v1", "logs": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\final_4080_v1\\logs", "resume": true, "prerequisites": [{"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.csv", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\manifest.meta.json", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\roles.csv", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\raw", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\laptop_4080_v1\\cache\\identity.json", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\data\\feedback_final_v1\\feedback_records.jsonl", "exists": true}, {"path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\final_4080_v1\\region_guide.json", "exists": true}], "cache_note": "Individual teacher image caches and resolved model access checked at execution", "gpu_status": "gpu_pending"}
+INFO:root:Fitting concat classifier with 16200 fit + 300 feedback tiles
+INFO:root:Fitting conch classifier with 16200 fit + 300 feedback tiles
+INFO:root:Fitting musk classifier with 16200 fit + 300 feedback tiles
+INFO:root:Classifier probe-83ca1a589ff4c807: n_feedback=300 eval_BA=0.9926
+INFO:root:Fitting concat classifier with 16200 fit + 400 feedback tiles
+INFO:root:Fitting conch classifier with 16200 fit + 400 feedback tiles
+INFO:root:Fitting musk classifier with 16200 fit + 400 feedback tiles
+INFO:root:Classifier probe-5cd3fe0b76e91b1e: n_feedback=400 eval_BA=0.9935
+INFO:root:Completed: {"status": "cpu_checked", "model_version": "probe-5cd3fe0b76e91b1e", "n_feedback": 400, "queue": "complete"}

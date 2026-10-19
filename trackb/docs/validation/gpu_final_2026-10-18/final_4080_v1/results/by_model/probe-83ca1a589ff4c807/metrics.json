@@ -1,0 +1,155 @@
+{
+  "n_eval": 3590,
+  "accuracy": 0.9944289693593314,
+  "balanced_accuracy": 0.9925643786574417,
+  "recall": {
+    "ADI": 0.9985052316890882,
+    "BACK": 1.0,
+    "DEB": 0.9940828402366864,
+    "LYM": 1.0,
+    "MUC": 1.0,
+    "MUS": 1.0,
+    "NORM": 0.9865229110512129,
+    "STR": 0.9620853080568721,
+    "TUM": 0.9918831168831169
+  },
+  "class_counts": {
+    "ADI": 669,
+    "TUM": 616,
+    "MUC": 517,
+    "BACK": 424,
+    "NORM": 371,
+    "LYM": 317,
+    "MUS": 296,
+    "STR": 211,
+    "DEB": 169
+  },
+  "pair_error_STR_MUS": 0.013806706114398421,
+  "pair_counts_STR_MUS": {
+    "errors": 7,
+    "denominator": 507
+  },
+  "pair_error_DEB_MUC": 0.0,
+  "pair_counts_DEB_MUC": {
+    "errors": 0,
+    "denominator": 686
+  },
+  "pair_error_NORM_TUM": 0.0070921985815602835,
+  "pair_counts_NORM_TUM": {
+    "errors": 7,
+    "denominator": 987
+  },
+  "confusion_matrix": {
+    "ADI": {
+      "ADI": 668,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 1,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "BACK": {
+      "ADI": 0,
+      "BACK": 424,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "DEB": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 168,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 1,
+      "TUM": 0
+    },
+    "LYM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 317,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "MUC": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 517,
+      "MUS": 0,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "MUS": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 296,
+      "NORM": 0,
+      "STR": 0,
+      "TUM": 0
+    },
+    "NORM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 0,
+      "MUC": 1,
+      "MUS": 0,
+      "NORM": 366,
+      "STR": 0,
+      "TUM": 4
+    },
+    "STR": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 0,
+      "LYM": 1,
+      "MUC": 0,
+      "MUS": 7,
+      "NORM": 0,
+      "STR": 203,
+      "TUM": 0
+    },
+    "TUM": {
+      "ADI": 0,
+      "BACK": 0,
+      "DEB": 2,
+      "LYM": 0,
+      "MUC": 0,
+      "MUS": 0,
+      "NORM": 3,
+      "STR": 0,
+      "TUM": 611
+    }
+  },
+  "n_rationale": 0,
+  "format_rate": null,
+  "grounding_pass_rate": null,
+  "explanation_sources": {},
+  "retrieved_support_rate": null,
+  "student_grounding_rate": null,
+  "run_id": "final_4080_v1",
+  "stage": "probe_fb_300",
+  "model_version": "probe-83ca1a589ff4c807",
+  "manifest_version": "b-v1-ca24f7ea87e8",
+  "classification_backend": "pathology_probe",
+  "n_feedback": 300
+}

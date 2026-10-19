@@ -1,0 +1,7 @@
+{
+  "status": "gpu_verified",
+  "n_explanations": 3590,
+  "n_reused": 913,
+  "classifier_version": "probe-5cd3fe0b76e91b1e",
+  "qwen_version": "step_0000200-a755eb3b2def"
+}

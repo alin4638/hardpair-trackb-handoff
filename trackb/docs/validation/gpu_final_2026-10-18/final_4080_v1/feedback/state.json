@@ -1,0 +1,76 @@
+{
+  "backend": "pathology_probe",
+  "anchor": {
+    "model_version": "probe-6c0f7c7191f5ae7d",
+    "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\final_4080_v1\\classifiers\\probe-6c0f7c7191f5ae7d",
+    "classification_backend": "pathology_probe",
+    "n_feedback": 200,
+    "n_train_fit": 16200,
+    "feedback_hash": "194ff2224aa44e3323b1c68dc4a31842df64fc3864d4c2e6fb37f94ce0cb8976",
+    "seconds": 3.7780371000117157,
+    "heads": {
+      "concat": {
+        "seconds": 1.277063800022006,
+        "iterations": 62,
+        "converged": true
+      },
+      "conch": {
+        "seconds": 0.5919646999973338,
+        "iterations": 62,
+        "converged": true
+      },
+      "musk": {
+        "seconds": 1.133860999980243,
+        "iterations": 76,
+        "converged": true
+      }
+    }
+  },
+  "updates": [
+    {
+      "model_version": "probe-6c0f7c7191f5ae7d",
+      "n_feedback": 200,
+      "seconds": 3.7780371000117157,
+      "dev_balanced_accuracy": 0.9888888888888889
+    },
+    {
+      "model_version": "probe-83ca1a589ff4c807",
+      "n_feedback": 300,
+      "seconds": 2.9639561000221875,
+      "dev_balanced_accuracy": 0.9894444444444443
+    },
+    {
+      "model_version": "probe-5cd3fe0b76e91b1e",
+      "n_feedback": 400,
+      "seconds": 1.9497316000051796,
+      "dev_balanced_accuracy": 0.9905555555555554
+    }
+  ],
+  "current": {
+    "model_version": "probe-5cd3fe0b76e91b1e",
+    "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\final_4080_v1\\classifiers\\probe-5cd3fe0b76e91b1e",
+    "classification_backend": "pathology_probe",
+    "n_feedback": 400,
+    "n_train_fit": 16200,
+    "feedback_hash": "b2ac0574d8e1bf6d85266b71cbccf8b5c8a4fc6392df18f57809e36244f789dd",
+    "seconds": 1.9497316000051796,
+    "heads": {
+      "concat": {
+        "seconds": 0.5033307999838144,
+        "iterations": 25,
+        "converged": true
+      },
+      "conch": {
+        "seconds": 0.2440647000039462,
+        "iterations": 25,
+        "converged": true
+      },
+      "musk": {
+        "seconds": 0.6886524000146892,
+        "iterations": 41,
+        "converged": true
+      }
+    }
+  },
+  "trained_feedback_hash": "b2ac0574d8e1bf6d85266b71cbccf8b5c8a4fc6392df18f57809e36244f789dd"
+}

@@ -1,0 +1,27 @@
+{
+  "model_version": "probe-5cd3fe0b76e91b1e",
+  "path": "C:\\dev\\handoff\\hardpair-trackb-handoff\\trackb\\outputs\\final_4080_v1\\classifiers\\probe-5cd3fe0b76e91b1e",
+  "classification_backend": "pathology_probe",
+  "n_feedback": 400,
+  "n_train_fit": 16200,
+  "feedback_hash": "b2ac0574d8e1bf6d85266b71cbccf8b5c8a4fc6392df18f57809e36244f789dd",
+  "seconds": 1.9497316000051796,
+  "heads": {
+    "concat": {
+      "seconds": 0.5033307999838144,
+      "iterations": 25,
+      "converged": true
+    },
+    "conch": {
+      "seconds": 0.2440647000039462,
+      "iterations": 25,
+      "converged": true
+    },
+    "musk": {
+      "seconds": 0.6886524000146892,
+      "iterations": 41,
+      "converged": true
+    }
+  },
+  "result_stage": "probe_fb_400"
+}
